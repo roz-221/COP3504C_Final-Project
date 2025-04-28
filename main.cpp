@@ -60,6 +60,7 @@ private:
     unsigned int width;
     unsigned int height;
     sf::Font font;
+    Player p
 
 public:
     WelcomeWindow()
@@ -181,7 +182,7 @@ public:
                 }
             }
 
-
+            p.setName(playerName);
             welcomeWindow.clear();
             welcomeWindow.draw(background);
             welcomeWindow.draw(welcomeText);
