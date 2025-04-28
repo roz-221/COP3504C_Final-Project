@@ -15,6 +15,45 @@ static void setText(sf::Text& text, float x, float y)
     text.setPosition(sf::Vector2f(x, y));
 }
 
+class Player
+{
+private:
+    unsigned int time;
+    std::string name;
+public:
+    User()
+    {
+        time = 0;
+        name = "";
+    }
+
+    Player(unsigned int time, std::string name)
+    {
+        this->time = time;
+        this->name = name;
+    }
+
+    std::string getName()
+    {
+        return name;
+    }
+
+    int getTime()
+    {
+        return time;
+    }
+
+    void setTime(int time)
+    {
+        this->time = time;
+    }
+
+    void setName(std::string name)
+    {
+        this->name = name;
+    }
+};
+
 class WelcomeWindow
 {
 private:
