@@ -9,6 +9,7 @@ class Building {
   int building_count;
   int building_price;
   sf::Sprite building_sprite;
+  sf::Texture building_texture
   int earn_rate;
   bool unlocked;
 
@@ -57,6 +58,16 @@ class Building {
       building_sprite = sprite;
     }
 
+    void setBuildingTexture()
+    {
+        if (!building_texture.loadFromFile("images/" + name + ".png"))
+        {
+            std::cerr << "Failed to load hidden tile!" << std::endl;
+            return false;
+        }
+        building_sprite.setTexture(building_texture);
+        building_sprite.setTextureRect(sf::IntRect(0, 0, 200, 200))
+    }
 };
 
 #endif //BUILDING_H

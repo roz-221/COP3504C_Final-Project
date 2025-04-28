@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <random>
 #include <cmath>
+#include "building.h"
 
 static void setText(sf::Text& text, float x, float y)
 {
@@ -53,6 +54,8 @@ public:
         this->name = name;
     }
 };
+
+
 
 class WelcomeWindow
 {
