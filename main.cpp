@@ -916,7 +916,7 @@ public:
             //draw title
             gameWindow.draw(title);
             //draw balance
-            sf::Text balanceText("Balance: " + std::to_string(balance), font);
+            sf::Text balanceText("Balance: $" + std::to_string(balance), font);
             sf::Vector2f balanceCenter = balanceText.getLocalBounds().getSize() / 2.f;
             balanceText.setOrigin(balanceCenter);
             balanceText.setPosition(sf::Vector2f(title.getPosition().x + 400, 10));
