@@ -499,6 +499,16 @@ public:
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
         totalBalance.setPosition(700, 200);
 
+        if (!avatarTexture.loadFromFile("images/avatar.png"))
+        {
+            std::cerr << "Failed to load avatar!" << std::endl;
+        }
+
+        avatar.setTexture(avatarTexture);
+        avatar.setTextureRect(sf::IntRect(0, 151, 400, 400));
+        avatar.setScale(100 / 400.0, 100 / 400.0);
+        avatar.setPosition(200, 200);
+
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
             std::cerr << "Failed to load pause!" << std::endl;
