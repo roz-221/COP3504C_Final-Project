@@ -704,7 +704,6 @@ public:
 
         // Draw minutes
         sf::Sprite mDigit1Sprite(digits);
-        sf::Sprite mDigit1Sprite(digits);
         mDigit1Sprite.setTextureRect(sf::IntRect(21 * mDigit1, 0, 21, 32));
         mDigit1Sprite.setPosition(width - 102, height - 50);
         window.draw(mDigit1Sprite);
