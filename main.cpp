@@ -388,7 +388,6 @@ public:
     }
 
     int purchaseBuilding() {
-        current_building_price = original_building_price;
         currentBuildingPrice = sf::Text("$" + std::to_string(current_building_price), font, 10);
         buildingCount = sf::Text(std::to_string(building_count), font, 10);
         earnRate = sf::Text(std::to_string(earn_rate), font, 10);
