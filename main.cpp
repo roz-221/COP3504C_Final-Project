@@ -494,6 +494,53 @@ public:
         }
     }
     
+    void drawTimer(sf::RenderWindow& window)
+    {
+        if (!gameWon)
+        {
+            if (!isPaused)
+            {
+                timeElapsed = static_cast<int>((gameClock.getElapsedTime() - pausedTime).asSeconds());
+            }
+        }
+
+        if (timeElapsed > 999)
+        {
+            timeElapsed = 999;
+        }
+
+        int minutes = timeElapsed / 60;
+        int seconds = timeElapsed % 60;
+
+        int mDigit1 = minutes / 10;
+        int mDigit2 = minutes % 10;
+
+        int sDigit1 = seconds / 10;
+        int sDigit2 = seconds % 10;
+
+        // Draw minutes
+        sf::Sprite mDigit1Sprite(digits);
+        mDigit1Sprite.setTextureRect(sf::IntRect(21 * mDigit1, 0, 21, 32));
+        mDigit1Sprite.setPosition((columns * 32) - 97, 32 * (rows + 0.5f) + 16);
+        window.draw(mDigit1Sprite);
+
+        sf::Sprite mDigit2Sprite(digits);
+        mDigit2Sprite.setTextureRect(sf::IntRect(21 * mDigit2, 0, 21, 32));
+        mDigit2Sprite.setPosition((columns * 32) - 76, 32 * (rows + 0.5f) + 16);
+        window.draw(mDigit2Sprite);
+
+        // Draw seconds
+        sf::Sprite sDigit1Sprite(digits);
+        sDigit1Sprite.setTextureRect(sf::IntRect(21 * sDigit1, 0, 21, 32));
+        sDigit1Sprite.setPosition((columns * 32) - 55, 32 * (rows + 0.5f) + 16);
+        window.draw(sDigit1Sprite);
+
+        sf::Sprite sDigit2Sprite(digits);
+        sDigit2Sprite.setTextureRect(sf::IntRect(21 * sDigit2, 0, 21, 32));
+        sDigit2Sprite.setPosition((columns * 32) - 34, 32 * (rows + 0.5f) + 16);
+        window.draw(sDigit2Sprite);
+    }
+
     void loadTextures()
     {
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
@@ -605,20 +652,29 @@ public:
         }
 
         //reset check
-        if (reset.getGlobalBounds().contains(mousePos.x, mousePos.y))
+        else if (reset.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleReset();
         }
 
         //Leaderboard Check
-        if (leaderboard.getGlobalBounds().contains(mousePos.x, mousePos.y))
+        else if (leaderboard.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleLeaderboard();
         }
 
-        if (pausePlayButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
+        else if (pausePlayButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             togglePause();
+        }
+
+        else {
+            for (size_t i = 0; i < buildings.size(); ++i) {
+                if (buildings[i].getBuildingSprite().getGlobalBounds().contains(mousePos.x, mousePos.y)) 
+                {
+                    balance -= buildings[i].purchaseBuilding();
+                }
+            }
         }
     }
 
@@ -691,6 +747,7 @@ public:
             gameWindow.draw(avatar);
             gameWindow.draw(pausePlayButton);
             gameWindow.draw(reset);
+            //gameWindow.draw(timer);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
                 //gameWindow.draw(buildings.at(i).getBuildingSprite());
