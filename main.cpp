@@ -618,12 +618,21 @@ public:
                     handleClick(event.mouseButton.x, event.mouseButton.y, event.mouseButton.button, gameWindow);
                 }
             }
-            // Change background to money picture
-            gameWindow.clear(sf::Color::Blue);
-            sf::Texture money_background;
-            money_background.loadFromFile("images/background_screen.png");
-            sf::Sprite bg(money_background);
-            gameWindow.draw(bg);
+            // Change background to money picture or gold picture depending on upgrades
+            if (!uw.getGold()) {
+                gameWindow.clear(sf::Color::Blue);
+                sf::Texture money_background;
+                money_background.loadFromFile("images/background_screen.png");
+                sf::Sprite bg(money_background);
+                gameWindow.draw(bg);
+            } else {
+                gameWindow.clear(sf::Color::Blue);
+                sf::Texture gold_background;
+                gold_background.loadFromFile("images/goldbackground.png");
+                sf::Sprite gold(gold_background);
+                gold.setScale(1.5f, 1.5f);
+                gameWindow.draw(gold);
+            }
 
             //draw title
             gameWindow.draw(title);
