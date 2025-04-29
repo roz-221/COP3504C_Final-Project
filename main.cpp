@@ -538,7 +538,7 @@ struct Leaderboard{
 };
 
 class GameWindow {
-    float balance;
+    int balance;
     sf::Text totalBalance;
 
     sf::Font font;
@@ -587,8 +587,7 @@ public:
         }
     }
     void wonGame() {
-        std::string bal = totalBalance.getString();
-        if (std::stoi(bal) >= 2000000000) {
+        if (balance >= 2000000000) {
             gameWon = true;
         }
     }
