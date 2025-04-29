@@ -26,7 +26,16 @@ class UpgradeWindow {
       void setDiscount(bool other) {
           this->discount = other;
       }
-
+      void resetUpgradeWindow() {
+          multiplier_cost = 100;
+          multiplier = 1.0;
+          discount = false;
+          gold = false;
+          std::stringstream ss;
+          ss << std::fixed << std::setprecision(2) << multiplier;
+          std::string str = ss.str();
+          multiplier_string = "Current multiplier: " + str + "x";
+      }    
       float getMultiplier() {
           return this->multiplier;
       }
@@ -44,7 +53,6 @@ class UpgradeWindow {
         height = 300;
         multiplier_cost = 100;
         multiplier = 1;
-        discount = 1;
         discount = false;
         gold = false;
         std::stringstream ss;
@@ -282,6 +290,10 @@ public:
     void setDiscount(bool discount) {
         this->discount = discount;
     }
+    void setCurrentPrice(int curprice) {
+        this->current_building_price = curprice;
+    }
+
 
     void setAllPriceAndText()
     {
@@ -697,23 +709,23 @@ public:
         // Draw minutes
         sf::Sprite mDigit1Sprite(digits);
         mDigit1Sprite.setTextureRect(sf::IntRect(21 * mDigit1, 0, 21, 32));
-        mDigit1Sprite.setPosition(width - 97, height + 16);
+        mDigit1Sprite.setPosition(width - 102, height - 50);
         window.draw(mDigit1Sprite);
 
         sf::Sprite mDigit2Sprite(digits);
         mDigit2Sprite.setTextureRect(sf::IntRect(21 * mDigit2, 0, 21, 32));
-        mDigit2Sprite.setPosition(width - 76, height + 16);
+        mDigit2Sprite.setPosition(width - 81, height - 50);
         window.draw(mDigit2Sprite);
 
         // Draw seconds
         sf::Sprite sDigit1Sprite(digits);
         sDigit1Sprite.setTextureRect(sf::IntRect(21 * sDigit1, 0, 21, 32));
-        sDigit1Sprite.setPosition(width - 55, height + 16);
+        sDigit1Sprite.setPosition(width - 55, height - 50);
         window.draw(sDigit1Sprite);
 
         sf::Sprite sDigit2Sprite(digits);
         sDigit2Sprite.setTextureRect(sf::IntRect(21 * sDigit2, 0, 21, 32));
-        sDigit2Sprite.setPosition(width - 34, height + 16);
+        sDigit2Sprite.setPosition(width - 34, height - 50);
         window.draw(sDigit2Sprite);
     }
 
@@ -802,8 +814,11 @@ public:
         for (size_t i = 0; i < buildings.size(); i++)
         {
             buildings[i].setBuildingCount(0);
+            buildings[i].setCurrentPrice(0);
         }
+        uw.resetUpgradeWindow();
     }
+
 
     void toggleLeaderboard()
     {
