@@ -58,7 +58,8 @@ class UpgradeWindow {
      }
 
 
-      void launchUpgradeWindow() {
+      unsigned int launchUpgradeWindow(unsigned int balance) {
+        int money_spent = 0;
         sf::Color textColor = sf::Color(10, 172, 96);
         sf::RenderWindow upgradeWindow(sf::VideoMode(width, height), "Upgrades", sf::Style::Default);
         upgradeWindow.setFramerateLimit(60);
@@ -128,7 +129,8 @@ class UpgradeWindow {
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
               auto multiplierbuttonbounds = multiplierPurchase.getGlobalBounds();
               if (multiplierbuttonbounds.contains(sf::Mouse::getPosition(upgradeWindow).x, sf::Mouse::getPosition(upgradeWindow).y)) {
-                if (multiplier < 2 /*= && user.getBalance > multiplier_cost =*/) {
+                if (multiplier < 2 && (balance - money_spent) >= multiplier_cost) {
+                  money_spent += multiplier_cost;
                   // user.setBalance(user.getBalance() - multiplier_cost);
                   multiplier += .1;
                   multiplier_cost *= 4;
@@ -145,7 +147,8 @@ class UpgradeWindow {
               }
               auto discountbuttonbounds = discountPurchase.getGlobalBounds();
               if (discountbuttonbounds.contains(sf::Mouse::getPosition(upgradeWindow).x, sf::Mouse::getPosition(upgradeWindow).y)) {
-                if (!discount /*= && user.getBalance() > 1000000 =*/) {
+                if (!discount && (balance - money_spent) >= 1000000) {
+                  money_spent += 1000000;
                   // user.setBalance(user.getBalance() - 1000000);
                   discount = true;
                   discountPurchaseText.setStyle(sf::Text::StrikeThrough);
@@ -153,7 +156,8 @@ class UpgradeWindow {
               }
               auto goldbuttonbounds = goldPurchase.getGlobalBounds();
               if (goldbuttonbounds.contains(sf::Mouse::getPosition(upgradeWindow).x, sf::Mouse::getPosition(upgradeWindow).y)) {
-                if (!gold /*= && user.getBalance() > 1000000 =*/) {
+                if (!gold && (balance - money_spent) >= 1000000) {
+                  money_spent += 1000000;
                   // user.setBalance(user.getBalance() - 1000000);
                   gold = true;
                   goldPurchaseText.setStyle(sf::Text::StrikeThrough);
@@ -185,7 +189,7 @@ class UpgradeWindow {
         }
 
 
-
+        return money_spent;
       }
 };
 
@@ -654,7 +658,7 @@ class GameWindow {
     sf::Clock earningsClock;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1000)
+    GameWindow() : balance(1000000000), width(1500), height(1000)
     {
         if (!font.loadFromFile("font.ttf"))
         {
@@ -810,7 +814,8 @@ public:
     void handleClick(sf::Vector2i mousePos)
     {
         if(upgrade.getGlobalBounds().contains(mousePos.x, mousePos.y)){
-            uw.launchUpgradeWindow();
+            int money_spent = uw.launchUpgradeWindow(balance);
+            balance -= money_spent;
         }
 
         //reset check
@@ -865,7 +870,6 @@ public:
             std::cout << "Failed to read font file." << std::endl;
             return;
         }
-
         sf::RenderWindow gameWindow(sf::VideoMode({ width, height }), "Game Window");
         sf::Text title(name + "'s Tycoon", font, 30);
         title.setFillColor(sf::Color::Black);
@@ -951,6 +955,9 @@ public:
             //Check if game won
             wonGame();
             if (gameWon) {
+                p1.setTime(gameClock.getElapsedTime().asSeconds());
+                std::cout << p1.getName() << " " << p1.getTime();
+                lb.players.push_back(p1);
                 lb.launchLeaderboard();
             }
 
