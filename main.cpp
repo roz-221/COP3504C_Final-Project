@@ -776,6 +776,9 @@ public:
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
         leaderboard.setPosition(40, 860);
 
+        pausePlayButton.setPosition(750,860);
+        pausePlayButton.setTexture(pauseTexture);
+
         buildings[0].setName("concessions");
         buildings[1].setName("bull");
         buildings[2].setName("coaster");
