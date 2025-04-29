@@ -697,7 +697,6 @@ public:
 
         }
     }
-}
 };
 
 class WelcomeWindow
