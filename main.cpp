@@ -548,7 +548,7 @@ public:
 
         for (size_t i = 0; i < buildings.size(); i++)
         {
-            buildings[i].setAllPrice();
+            buildings[i].setAllPriceAndText();
             buildings[i].setBuildingTexture();
         }
 
