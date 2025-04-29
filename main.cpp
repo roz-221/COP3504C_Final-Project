@@ -529,7 +529,11 @@ public:
             std::cerr << "Failed to open font file!" << std::endl;
         }
     }
-    
+    void wonGame() {
+        if (totalBalance >= 2000000000) {
+            gameWon = true;
+        }
+    }
     void drawTimer(sf::RenderWindow& window)
     {
         if (!gameWon)
@@ -796,6 +800,13 @@ public:
             }
             //Update Earnings
             updateEarnings();
+
+            //Check if game won
+            wonGame();
+            if (wonGame) {
+                launchLeaderboard();
+            }
+            
             gameWindow.display();
 
         }
