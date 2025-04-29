@@ -583,6 +583,16 @@ public:
             uw.launchUpgradeWindow();
         }
     }
+
+    int getEarnings() {
+        int total_earn_rate = 0;
+        for (Building b : buildings) {
+            total_earn_rate += (b.getEarnRate() * b.getBuildingCount());
+        }
+        total_earn_rate *= uw.getMultiplier();
+
+        return total_earn_rate;
+    }
     
     void run(std::string name) {
         sf::Font font;
