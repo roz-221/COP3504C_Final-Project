@@ -861,8 +861,8 @@ public:
 
             //Check if game won
             wonGame();
-            if (wonGame) {
-                launchLeaderboard();
+            if (gameWon) {
+                lb.launchLeaderboard();
             }
             
             gameWindow.display();
