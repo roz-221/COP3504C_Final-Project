@@ -619,8 +619,8 @@ public:
             toggleReset();
         }
 
-        //Leaderborad Check
-        if (leaderBoard.getGlobalBounds().contains(mousePos.x, mousePos.y))
+        //Leaderboard Check
+        if (leaderboard.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleLeaderboard();
         }
@@ -653,7 +653,7 @@ public:
         title.setColor(sf::Color::Black);
         sf::Vector2f center = title.getLocalBounds().getSize() / 2.f;
         title.setOrigin(center.x, center.y);
-        title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 10));
+        title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 15));
 
         while (gameWindow.isOpen()) {
             sf::Event event;
@@ -707,7 +707,6 @@ public:
 
         }
     }
-}
 };
 
 class WelcomeWindow
