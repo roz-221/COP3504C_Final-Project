@@ -436,7 +436,6 @@ public:
         ferrisWheelTexture.loadFromFile("images/ferriswheel.png");
         ferrisWheel.setTexture(ferrisWheelTexture);
         ferrisWheel.setPosition(sf::Vector2f(300, 300));
-        ferrisWheel.setScale(.4f, .4f);
 
         sf::Text cursor("|", font, 20);
         cursor.setFillColor(sf::Color::Yellow);
