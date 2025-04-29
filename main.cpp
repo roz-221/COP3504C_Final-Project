@@ -169,8 +169,8 @@ public:
 };
 
 struct Leaderboard{
-    int width;
-    int height;
+    unsigned int width;
+    unsigned int height;
     sf::Font font;
     std::vector<Player> players;
 
