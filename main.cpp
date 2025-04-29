@@ -609,8 +609,8 @@ public:
             toggleReset();
         }
 
-        //Leaderborad Check
-        if (leaderBoard.getGlobalBounds().contains(mousePos.x, mousePos.y))
+        //Leaderboard Check
+        if (leaderboard.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleLeaderboard();
         }
