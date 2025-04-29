@@ -461,7 +461,6 @@ struct Leaderboard{
                 leaderBoardWindow.draw(background);
                 //draw player list
                 for(int i = 0; i < players.size(); i++){
-                    std::cout << players.at(i).getName();
                     sf::Text playerText((players.at(i).getName() + " : " + std::to_string(players.at(i).getTime())) + " seconds", font);
                     playerText.setFillColor(sf::Color::Black);
                     sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
@@ -519,6 +518,8 @@ class GameWindow {
 
     bool gameWon;
     Player p1;
+
+    sf::Clock earningsClock;
 
 public:
     GameWindow() : balance(50), width(1500), height(1000) 
@@ -581,7 +582,6 @@ public:
         if (!digits.loadFromFile("images/digits.png"))
         {
             std::cerr << "Failed to load digits!" << std::endl;
-            return false;
         }
 
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
