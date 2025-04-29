@@ -243,6 +243,7 @@ class Building {
 
     sf::Sprite building_sprite;
     sf::Texture building_texture;
+    sf::RectangleShape outline_rectangle;
 
     int earn_rate;
     sf::Text earnRate;
@@ -344,6 +345,9 @@ public:
     sf::Sprite getBuildingSprite() {
         return building_sprite;
     }
+    sf::RectangleShape getOutlineRectangle() {
+        return outline_rectangle;
+    }
     void setEarnRate(int rate) {
         earn_rate = rate;
     }
@@ -367,22 +371,33 @@ public:
         building_sprite.setTexture(building_texture);
         building_sprite.setScale(200.0f/(building_texture.getSize().x), 200.0f/(building_texture.getSize().y));
         building_sprite.setPosition(100,100);
+        outline_rectangle.setSize(sf::Vector2f(200, 200));
+        outline_rectangle.setOutlineColor(sf::Color::Black);
+        outline_rectangle.setOutlineThickness(3.0f);
         if (name == "concessions") {
             building_sprite.setPosition(sf::Vector2f(275, 200));
+            outline_rectangle.setPosition(sf::Vector2f(275, 200));
         } else if (name == "bull") {
             building_sprite.setPosition(sf::Vector2f(275, 600));
+            outline_rectangle.setPosition(sf::Vector2f(275, 600));
         } else if (name == "coaster") {
             building_sprite.setPosition(sf::Vector2f(525, 200));
+            outline_rectangle.setPosition(sf::Vector2f(525, 200));
         } else if (name == "ferriswheel") {
             building_sprite.setPosition(sf::Vector2f(525, 600));
+            outline_rectangle.setPosition(sf::Vector2f(525, 600));
         } else if (name == "teacups") {
             building_sprite.setPosition(sf::Vector2f(775, 200));
+            outline_rectangle.setPosition(sf::Vector2f(775, 200));
         } else if (name == "bumper cars") {
             building_sprite.setPosition(sf::Vector2f(775, 600));
+            outline_rectangle.setPosition(sf::Vector2f(775, 600));
         } else if (name == "gokarts") {
             building_sprite.setPosition(sf::Vector2f(1025, 200));
+            outline_rectangle.setPosition(sf::Vector2f(1025, 200));
         } else if (name == "droptower") {
             building_sprite.setPosition(sf::Vector2f(1025, 600));
+           outline_rectangle.setPosition(sf::Vector2f(1025, 600));
         }
     }
 };
@@ -763,6 +778,7 @@ public:
             drawTimer(gameWindow);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
+                gameWindow.draw(buildings.at(i).getOutlineRectangle());
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
             //Update Earnings
