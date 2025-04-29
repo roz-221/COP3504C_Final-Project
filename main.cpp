@@ -693,7 +693,13 @@ public:
 
         return total_earn_rate;
     }
-    
+    void updateEarnings() {
+        float earningsTime = earningsClock.getElapsedTime().asSeconds();
+        if (earningsTime >= 1.0f) {
+            balance += getEarnings();
+        }
+        earningsClock.restart();
+    }
     void run(std::string name) {
         p1 = Player(name, timeElapsed);
         sf::Font font;
@@ -759,6 +765,8 @@ public:
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
+            //Update Earnings
+            updateEarnings();
             gameWindow.display();
 
         }
