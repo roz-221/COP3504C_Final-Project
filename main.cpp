@@ -670,7 +670,7 @@ class GameWindow {
     sf::Clock earningsClock;
 
 public:
-    GameWindow() : balance(1000000000), width(1500), height(1000)
+    GameWindow() : balance(50), width(1500), height(1000)
     {
         if (!font.loadFromFile("font.ttf"))
         {
