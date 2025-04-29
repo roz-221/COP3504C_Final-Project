@@ -505,9 +505,9 @@ public:
         }
 
         avatar.setTexture(avatarTexture);
-        avatar.setTextureRect(sf::IntRect(0, 151, 400, 400));
+        avatar.setTextureRect(sf::IntRect(0, 55, 500, 500));
         avatar.setScale(100 / 400.0, 100 / 400.0);
-        avatar.setPosition(200, 200);
+        avatar.setPosition(0, 0);
 
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
@@ -693,7 +693,7 @@ public:
             gameWindow.draw(reset);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
-                gameWindow.draw(buildings.at(i).getBuildingSprite());
+                //gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
             gameWindow.display();
 
