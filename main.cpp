@@ -609,8 +609,8 @@ public:
             toggleReset();
         }
 
-        //Leaderborad Check
-        if (leaderBoard.getGlobalBounds().contains(translated_pos))
+        //Leaderboard Check
+        if (Leaderboard.getGlobalBounds().contains(translated_pos))
         {
             toggleLeaderboard();
         }
