@@ -237,9 +237,10 @@ class Building {
     unsigned int building_count;
     sf::Text buildingCount;
 
-    float original_building_price;
-    float current_building_price;
+    int original_building_price;
+    int current_building_price;
     sf::Text currentBuildingPrice;
+    sf::RectangleShape buildingPriceButton;
 
     sf::Sprite building_sprite;
     sf::Texture building_texture;
@@ -274,48 +275,72 @@ public:
         {
             
             original_building_price = 50;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 10;
         }
 
         else if (name == "bull")
         {
             original_building_price = 400;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 100;
         }
 
         else if (name == "coaster")
         {
             original_building_price = 2500;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 250;
         }
 
         else if (name == "ferriswheel")
         {
             original_building_price = 15000;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 1500;
         }
 
         else if (name == "teacups")
         {
             original_building_price = 100000;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 8000;
         }
 
         else if (name == "bumper cars")
         {
             original_building_price = 500000;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 40000;
         }
 
         else if (name == "gokarts")
         {
             original_building_price = 2500000;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 200000;
         }
 
         else if (name == "droptower")
         {
             original_building_price = 15000000;
+            if (current_building_price == 0) {
+                current_building_price = original_building_price;
+            }
             earn_rate = 1500000;
         }
     }
@@ -323,8 +348,8 @@ public:
     int purchaseBuilding() {
         current_building_price = original_building_price;
         currentBuildingPrice = sf::Text("$" + std::to_string(current_building_price), font, 10);
-        buildingCount = sf::Text("Building Count: "std::to_string(building_count), font, 10);
-        earnRate = sf::Text(std::to_string(earn_rate) + "$/s", font, 10);
+        buildingCount = sf::Text(std::to_string(building_count), font, 10);
+        earnRate = sf::Text(std::to_string(earn_rate), font, 10);
         building_count += 1;
         current_building_price *= 1.08;
         return (current_building_price / 1.08);
@@ -347,6 +372,12 @@ public:
     }
     sf::RectangleShape getOutlineRectangle() {
         return outline_rectangle;
+    }
+    sf::RectangleShape getBuildingPriceButton() {
+        return buildingPriceButton;
+    }
+    sf::Text getBuildingPriceText() {
+        return currentBuildingPrice;
     }
     void setEarnRate(int rate) {
         earn_rate = rate;
@@ -374,30 +405,56 @@ public:
         outline_rectangle.setSize(sf::Vector2f(200, 200));
         outline_rectangle.setOutlineColor(sf::Color::Black);
         outline_rectangle.setOutlineThickness(3.0f);
+        buildingPriceButton.setSize(sf::Vector2f(150, 50));
+        buildingPriceButton.setOutlineColor(sf::Color::Black);
+        buildingPriceButton.setOutlineThickness(3.0f);
+        currentBuildingPrice.setString("$" + std::to_string(current_building_price));
+        sf::FloatRect costTextRect = currentBuildingPrice.getLocalBounds();
+        currentBuildingPrice.setOrigin(costTextRect.left + costTextRect.width / 2.0f, costTextRect.top + costTextRect.height / 2.0f);
+        currentBuildingPrice.setFont(font);
+        currentBuildingPrice.setCharacterSize(20);
+        currentBuildingPrice.setFillColor(sf::Color(0, 100, 0));
+
         if (name == "concessions") {
             building_sprite.setPosition(sf::Vector2f(275, 200));
             outline_rectangle.setPosition(sf::Vector2f(275, 200));
+            buildingPriceButton.setPosition(sf::Vector2f(275, 403));
+            currentBuildingPrice.setPosition(sf::Vector2f(350, 428));
         } else if (name == "bull") {
             building_sprite.setPosition(sf::Vector2f(275, 600));
             outline_rectangle.setPosition(sf::Vector2f(275, 600));
+            buildingPriceButton.setPosition(sf::Vector2f(275, 803));
+            currentBuildingPrice.setPosition(sf::Vector2f(350, 828));
         } else if (name == "coaster") {
             building_sprite.setPosition(sf::Vector2f(525, 200));
             outline_rectangle.setPosition(sf::Vector2f(525, 200));
+            buildingPriceButton.setPosition(sf::Vector2f(525, 403));
+            currentBuildingPrice.setPosition(sf::Vector2f(600, 428));
         } else if (name == "ferriswheel") {
             building_sprite.setPosition(sf::Vector2f(525, 600));
             outline_rectangle.setPosition(sf::Vector2f(525, 600));
+            buildingPriceButton.setPosition(sf::Vector2f(525, 803));
+            currentBuildingPrice.setPosition(sf::Vector2f(600, 828));
         } else if (name == "teacups") {
             building_sprite.setPosition(sf::Vector2f(775, 200));
             outline_rectangle.setPosition(sf::Vector2f(775, 200));
+            buildingPriceButton.setPosition(sf::Vector2f(775, 403));
+            currentBuildingPrice.setPosition(sf::Vector2f(850, 428));
         } else if (name == "bumper cars") {
             building_sprite.setPosition(sf::Vector2f(775, 600));
             outline_rectangle.setPosition(sf::Vector2f(775, 600));
+            buildingPriceButton.setPosition(sf::Vector2f(775, 803));
+            currentBuildingPrice.setPosition(sf::Vector2f(850, 828));
         } else if (name == "gokarts") {
             building_sprite.setPosition(sf::Vector2f(1025, 200));
             outline_rectangle.setPosition(sf::Vector2f(1025, 200));
+            buildingPriceButton.setPosition(sf::Vector2f(1025, 403));
+            currentBuildingPrice.setPosition(sf::Vector2f(1100, 428));
         } else if (name == "droptower") {
             building_sprite.setPosition(sf::Vector2f(1025, 600));
-           outline_rectangle.setPosition(sf::Vector2f(1025, 600));
+            outline_rectangle.setPosition(sf::Vector2f(1025, 600));
+            buildingPriceButton.setPosition(sf::Vector2f(1025, 803));
+            currentBuildingPrice.setPosition(sf::Vector2f(1100, 828));
         }
     }
 };
@@ -481,7 +538,7 @@ struct Leaderboard{
 };
 
 class GameWindow {
-    float balance;
+    int balance;
     sf::Text totalBalance;
 
     sf::Font font;
@@ -529,7 +586,11 @@ public:
             std::cerr << "Failed to open font file!" << std::endl;
         }
     }
-    
+    void wonGame() {
+        if (balance >= 2000000000) {
+            gameWon = true;
+        }
+    }
     void drawTimer(sf::RenderWindow& window)
     {
         if (!gameWon)
@@ -540,9 +601,9 @@ public:
             }
         }
 
-        if (timeElapsed > 999)
+        if (timeElapsed > 3599)
         {
-            timeElapsed = 999;
+            timeElapsed = 3599;
         }
 
         int minutes = timeElapsed / 60;
@@ -583,10 +644,6 @@ public:
         {
             std::cerr << "Failed to load digits!" << std::endl;
         }
-
-        totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
-        totalBalance.setFillColor(sf::Color::Black);
-        totalBalance.setPosition(700, 200);
 
         if (!avatarTexture.loadFromFile("images/avatar.png"))
         {
@@ -774,6 +831,13 @@ public:
             loadTextures();
             //draw title
             gameWindow.draw(title);
+            //draw balance
+            sf::Text balanceText("Balance: " + std::to_string(balance), font);
+            sf::Vector2f balanceCenter = balanceText.getLocalBounds().getSize() / 2.f;
+            balanceText.setOrigin(balanceCenter);
+            balanceText.setPosition(sf::Vector2f(title.getPosition().x + 400, 10));
+            balanceText.setColor(sf::Color::Black);
+            gameWindow.draw(balanceText);
             //draw buttons
             upgradeTexture.loadFromFile("images/upgradebutton.png");
             upgrade.setTexture(upgradeTexture);
@@ -790,9 +854,18 @@ public:
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getOutlineRectangle());
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
+                gameWindow.draw(buildings.at(i).getBuildingPriceButton());
+                gameWindow.draw(buildings.at(i).getBuildingPriceText());
             }
             //Update Earnings
             updateEarnings();
+
+            //Check if game won
+            wonGame();
+            if (gameWon) {
+                lb.launchLeaderboard();
+            }
+            
             gameWindow.display();
 
         }
