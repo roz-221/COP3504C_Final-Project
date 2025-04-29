@@ -104,7 +104,6 @@ class UpgradeWindow {
           while (upgradeWindow.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
               upgradeWindow.close();
-              exit(0);
             }
             if (multiplier >= 2.0) {
               multiplierPurchaseText.setStyle(sf::Text::StrikeThrough);
@@ -409,7 +408,6 @@ struct Leaderboard{
     }
 };
 
-
 class GameWindow {
     float balance;
     sf::Sprite avatar; // Winning & Normal
@@ -449,34 +447,30 @@ public:
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
             std::cerr << "Failed to load pause!" << std::endl;
-            return false;
         }
 
         if (!playTexture.loadFromFile("images/play.png"))
         {
             std::cerr << "Failed to load play!" << std::endl;
-            return false;
         }
 
         if (!resetTexture.loadFromFile("images/reset.png"))
         {
             std::cerr << "Failed to load play!" << std::endl;
-            return false;
         }
 
         reset.setTexture(resetTexture);
-        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setTextureRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
         //reset.setPosition()
 
-        if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
+        if (!leaderboardTexture.loadFromFile("images/leaderboard.png"))
         {
             std::cerr << "Failed to load leaderboard!" << std::endl;
-            return false;
         }
 
-        leaderBoard.setTexture(leaderBoardTexture);
-        leaderBoard.setTextureRect(sf::IntRect(0, 0, 64, 64));
+        leaderboard.setTexture(leaderboardTexture);
+        leaderboard.setTextureRect(sf::IntRect(0, 0, 64, 64));
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
         //leaderboard.setPosition()
 
