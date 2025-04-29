@@ -678,7 +678,7 @@ public:
         }
     }
     void wonGame() {
-        if (balance >= 2000000000) {
+        if (balance >= 2000000000 && gameWon = false) {
             gameWon = true;
         }
     }
