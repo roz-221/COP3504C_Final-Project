@@ -398,7 +398,7 @@ public:
         sf::RectangleShape background(sf::Vector2f(width, height));
         background.setFillColor(sf::Color::Blue);
 
-        sf::Text welcomeText("Welcome to (game_name)!", font, 24);
+        sf::Text welcomeText("Welcome to Tycoon Simulator!", font, 24);
         welcomeText.setPosition((welcomeWindow.getSize().x / 2) - (welcomeText.getLocalBounds().width / 2), welcomeWindow.getSize().y / 2 - 200);
         welcomeText.setFillColor(sf::Color::White);
         welcomeText.setStyle(sf::Text::Underlined | sf::Text::Bold);
