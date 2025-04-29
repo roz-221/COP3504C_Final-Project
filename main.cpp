@@ -429,6 +429,10 @@ struct Leaderboard{
 
 class GameWindow {
     float balance;
+    sf::Text totalBalance;
+
+    sf::Font font;
+
     sf::Sprite avatar; // Winning & Normal
     sf::Texture avatarTexture;
 
@@ -461,10 +465,18 @@ class GameWindow {
     Player p1;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1000) {}
+    GameWindow() : balance(50), width(1500), height(1000) 
+    {
+        if (!font.loadFromFile("font.ttf"))
+        {
+            std::cerr << "Failed to open font file!" << std::endl;
+        }
+    }
     
     void loadTextures()
     {
+        totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
+
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
             std::cerr << "Failed to load pause!" << std::endl;
@@ -569,6 +581,23 @@ public:
         if(upgrade.getGlobalBounds().contains(translated_pos)){
             uw.launchUpgradeWindow();
         }
+
+        //reset check
+        if (reset.getGlobalBounds().contains(translated_pos))
+        {
+            toggleReset();
+        }
+
+        //Leaderborad Check
+        if (leaderBoard.getGlobalBounds().contains(translated_pos))
+        {
+            toggleLeaderboard();
+        }
+
+        if (pausePlayButton.getGlobalBounds().contains(translated_pos))
+        {
+            togglePause();
+        }
     }
     
     void run(std::string name) {
@@ -591,8 +620,12 @@ public:
                 if (event.type == sf::Event::Closed) {
                     gameWindow.close();
                 }
-                if (event.type == sf::Event::MouseButtonPressed) {
-                    handleClick(event.mouseButton.x, event.mouseButton.y, event.mouseButton.button, gameWindow);
+                if (event.type == sf::Event::MouseButtonPressed) 
+                {
+                    if (event.mouseButton.button == sf::Mouse::Left)
+                    {
+                        
+                        
                 }
             }
             // Change background to money picture
@@ -733,7 +766,6 @@ public:
                     if (!playerName.empty())
                     {
                         welcomeWindow.close();
-                        //GameWindow Opens
                     }
                 }
                 if (!playerName.empty())
