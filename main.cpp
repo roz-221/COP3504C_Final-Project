@@ -477,7 +477,7 @@ class GameWindow {
     sf::Sprite upgrade;
     sf::Texture upgradeTexture;
 
-    std::vector<Building> buildings;
+    std::vector<Building> buildings = std::vector<Buildings>(8);
     unsigned int height;
     unsigned int width;
     UpgradeWindow uw;
@@ -537,7 +537,7 @@ public:
         leaderboard.setTexture(leaderboardTexture);
         leaderboard.setTextureRect(sf::IntRect(0, 0, 64, 64));
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
-        leaderboard.setPosition(350, 850);
+        leaderboard.setPosition(40, 860);
 
         buildings[0].setName("concessions");
         buildings[1].setName("bull");
