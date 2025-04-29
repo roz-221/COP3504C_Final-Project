@@ -516,7 +516,7 @@ class GameWindow {
     unsigned int width;
     UpgradeWindow uw;
 
-    bool gameWon;
+    bool gameWon = false;
     Player p1;
 
     sf::Clock earningsClock;
@@ -784,6 +784,7 @@ public:
             gameWindow.draw(avatar);
             gameWindow.draw(pausePlayButton);
             gameWindow.draw(reset);
+            gameWindow.draw(totalBalance);
             drawTimer(gameWindow);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
