@@ -442,7 +442,7 @@ class GameWindow {
     Player p1;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1200) {}
+    GameWindow() : balance(50), width(1500), height(1000) {}
     
     void loadTextures()
     {
@@ -588,7 +588,7 @@ public:
             //draw buttons
             upgradeTexture.loadFromFile("images/upgradebutton.png");
             upgrade.setTexture(upgradeTexture);
-            upgrade.setPosition(200, 1000);
+            upgrade.setPosition(160, 850);
             upgrade.setScale(sf::Vector2f(0.2, 0.2));
             gameWindow.draw(upgrade);
             //draw buildings 
