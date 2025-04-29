@@ -585,6 +585,7 @@ public:
         }
 
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
+        totalBalance.setFillColor(sf::Color::Black);
         totalBalance.setPosition(700, 200);
 
         if (!avatarTexture.loadFromFile("images/avatar.png"))
