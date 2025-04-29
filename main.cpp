@@ -477,7 +477,7 @@ class GameWindow {
     sf::Sprite upgrade;
     sf::Texture upgradeTexture;
 
-    std::vector<Building> buildings = std::vector<Buildings>(8);
+    std::vector<Building> buildings = std::vector<Building>(8);
     unsigned int height;
     unsigned int width;
     UpgradeWindow uw;
