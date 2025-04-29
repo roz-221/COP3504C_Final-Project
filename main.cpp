@@ -213,15 +213,30 @@ public:
 
 class Building {
     std::string name;
+
     unsigned int building_count;
+    sf::Text buildingCount;
+
     float original_building_price;
     float current_building_price;
+    sf::Text currentBuildingPrice;
+
     sf::Sprite building_sprite;
     sf::Texture building_texture;
+
     int earn_rate;
+    sf::Text earnRate;
+
+    sf::Font font;
 
 public:
-    Building() : building_count(0), original_building_price(0), earn_rate(0) {}
+    Building() : building_count(0), original_building_price(0), earn_rate(0) 
+    {
+        if (!font.loadFromFile("font.ttf"))
+        {
+            std::cerr << "Failed to open font file!" << std::endl;
+        }
+    }
 
     Building(std::string name) {
         this->name = name;
@@ -232,10 +247,11 @@ public:
         this->name = name;
     }
 
-    void setAllPrice()
+    void setAllPriceAndText()
     {
         if (name == "concessions")
         {
+            
             original_building_price = 50;
             earn_rate = 10;
         }
@@ -285,6 +301,9 @@ public:
 
     int purchaseBuilding() {
         current_building_price = original_building_price;
+        currentBuildingPrice = sf::Text("$" + std::to_string(current_building_price), font, 10);
+        buildingCount = sf::Text(std::to_string(current_building_count), font, 10);
+        earnRate = sf::Text(std::to_string(earn_rate), font, 10);
         building_count += 1;
         current_building_price *= 1.08;
         return (current_building_price / 1.08);
@@ -478,7 +497,7 @@ public:
         reset.setTexture(resetTexture);
         reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
-        //reset.setPosition()
+        reset.setPosition(1300, 200);
 
         if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
         {
@@ -489,7 +508,7 @@ public:
         leaderBoard.setTexture(leaderBoardTexture);
         leaderBoard.setTextureRect(sf::IntRect(0, 0, 64, 64));
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
-        //leaderboard.setPosition()
+        leaderboard.setPosition(350, 850);
 
         buildings[0].setName("concessions");
         buildings[1].setName("bull");
