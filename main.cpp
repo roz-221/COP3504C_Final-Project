@@ -26,7 +26,12 @@ class UpgradeWindow {
       void setDiscount(bool other) {
           this->discount = other;
       }
-
+      void resetUpgradeWindow() {
+          multiplier_cost = 100;
+          multiplier = 1;
+          discount = false;
+          gold = false;
+      }    
       float getMultiplier() {
           return this->multiplier;
       }
@@ -44,7 +49,6 @@ class UpgradeWindow {
         height = 300;
         multiplier_cost = 100;
         multiplier = 1;
-        discount = 1;
         discount = false;
         gold = false;
         std::stringstream ss;
