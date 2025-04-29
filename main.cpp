@@ -527,16 +527,7 @@ public:
         reset.setTexture(resetTexture);
         reset.setTextureRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
-
-        if (!resetTexture.loadFromFile("images/reset.png"))
-        {
-            std::cerr << "Failed to load play!" << std::endl;
-        }
-
-        reset.setTexture(resetTexture);
-        reset.setTextureRect(sf::IntRect(0, 0, 106, 106));
-        reset.setScale(100 / 106.0, 100 / 106.0);
-        reset.setPosition(1300, 200);
+        reset.setPosition(1400, 0);
 
         if (!leaderboardTexture.loadFromFile("images/leaderboard.png"))
         {
@@ -699,6 +690,7 @@ public:
             gameWindow.draw(leaderboard);
             gameWindow.draw(avatar);
             gameWindow.draw(pausePlayButton);
+            gameWindow.draw(reset);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
