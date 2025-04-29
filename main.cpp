@@ -157,6 +157,14 @@ class UpgradeWindow {
               }
             }
           }
+
+          if (gold) {
+              goldPurchaseText.setStyle(sf::Text::StrikeThrough);
+          }
+          if (discount) {
+              discountPurchaseText.setStyle(sf::Text::StrikeThrough);
+          }
+            
           upgradeWindow.clear();
           upgradeWindow.draw(background);
           upgradeWindow.draw(multiplierPurchase);
