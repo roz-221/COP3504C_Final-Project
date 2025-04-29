@@ -9,7 +9,7 @@ class Building {
   int building_count;
   int building_price;
   sf::Sprite building_sprite;
-  sf::Texture building_texture
+  sf::Texture building_texture;
   int earn_rate;
   bool unlocked;
 

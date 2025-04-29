@@ -411,7 +411,6 @@ struct Leaderboard{
             while(leaderBoardWindow.pollEvent(event)){
                 if(event.type == sf::Event::Closed){
                     leaderBoardWindow.close();
-                    exit(0);
                 }
 
                 leaderBoardWindow.setFramerateLimit(60);
@@ -423,14 +422,14 @@ struct Leaderboard{
                 //create title text
                 sf::Text mainText("User Leaderboard", font);
                 mainText.setPosition(sf::Vector2f(width/4, 0));
-                mainText.setColor(sf::Color::Black);
+                mainText.setFillColor(sf::Color::Black);
 
                 leaderBoardWindow.draw(background);
                 //draw player list
                 for(int i = 0; i < players.size(); i++){
                     std::cout << players.at(i).getName();
                     sf::Text playerText((players.at(i).getName() + " : " + std::to_string(players.at(i).getTime())) + " seconds", font);
-                    playerText.setColor(sf::Color::Black);
+                    playerText.setFillColor(sf::Color::Black);
                     sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
                     playerText.setOrigin(center.x, center.y);
                     playerText.setPosition(sf::Vector2f(leaderBoardWindow.getSize().x / 2.f, 50 + (i * 50))) ;
@@ -689,6 +688,7 @@ public:
     }
     
     void run(std::string name) {
+        p1 = Player(name, timeElapsed);
         sf::Font font;
         if (!font.loadFromFile("font.ttf")) {
             std::cout << "Failed to read font file." << std::endl;
@@ -697,7 +697,7 @@ public:
 
         sf::RenderWindow gameWindow(sf::VideoMode({ width, height }), "Game Window");
         sf::Text title(name + "'s Tycoon", font, 30);
-        title.setColor(sf::Color::Black);
+        title.setFillColor(sf::Color::Black);
         sf::Vector2f center = title.getLocalBounds().getSize() / 2.f;
         title.setOrigin(center.x, center.y);
         title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 15));
