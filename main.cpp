@@ -282,6 +282,10 @@ public:
     void setDiscount(bool discount) {
         this->discount = discount;
     }
+    void setCurrentPrice(int curprice) {
+        this->current_building_price = curprice;
+    }
+
 
     void setAllPriceAndText()
     {
@@ -802,8 +806,11 @@ public:
         for (size_t i = 0; i < buildings.size(); i++)
         {
             buildings[i].setBuildingCount(0);
+            buildings[i].setCurrentPrice(0);
         }
+        uw.resetUpgradeWindow();
     }
+
 
     void toggleLeaderboard()
     {
