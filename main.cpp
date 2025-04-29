@@ -678,7 +678,7 @@ public:
         }
     }
     void wonGame() {
-        if (balance >= 2000000000 && gameWon = false) {
+        if (balance >= 2000000000) {
             gameWon = true;
         }
     }
@@ -968,16 +968,18 @@ public:
             updateEarnings();
 
             //Check if game won
-            wonGame();
+            if (!gameWon) {
+                wonGame();
+            }
             if (gameWon) {
                 p1.setTime(gameClock.getElapsedTime().asSeconds());
                 std::cout << p1.getName() << " " << p1.getTime();
                 lb.players.push_back(p1);
+                toggleReset();
+                gameWon = false;
                 lb.launchLeaderboard();
             }
-
             gameWindow.display();
-
         }
     }
 };
