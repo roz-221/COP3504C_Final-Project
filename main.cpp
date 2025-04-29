@@ -22,6 +22,19 @@ class UpgradeWindow {
     std::string multiplier_string;
 
     public:
+
+      float getMultiplier() {
+          return this->multiplier;
+      }
+
+      bool getDiscount() {
+          return this->discount;
+      }
+
+      bool getGold() {
+          return this->gold;
+      }
+
       UpgradeWindow() {
         width = 450;
         height = 300;
