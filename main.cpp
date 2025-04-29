@@ -104,7 +104,6 @@ class UpgradeWindow {
           while (upgradeWindow.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
               upgradeWindow.close();
-              exit(0);
             }
             if (multiplier >= 2.0) {
               multiplierPurchaseText.setStyle(sf::Text::StrikeThrough);
@@ -428,7 +427,6 @@ struct Leaderboard{
     }
 };
 
-
 class GameWindow {
     float balance;
     sf::Sprite avatar; // Winning & Normal
@@ -457,56 +455,52 @@ class GameWindow {
     std::vector<Building> buildings;
     unsigned int height;
     unsigned int width;
-    
+    UpgradeWindow uw;
+
     bool gameWon;
     Player p1;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1200) {}
+    GameWindow() : balance(50), width(1500), height(1000) {}
     
     void loadTextures()
     {
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
             std::cerr << "Failed to load pause!" << std::endl;
-            return false;
         }
 
         if (!playTexture.loadFromFile("images/play.png"))
         {
             std::cerr << "Failed to load play!" << std::endl;
-            return false;
         }
 
         if (!resetTexture.loadFromFile("images/reset.png"))
         {
             std::cerr << "Failed to load play!" << std::endl;
-            return false;
         }
 
         reset.setTexture(resetTexture);
-        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setTextureRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
 
         if (!resetTexture.loadFromFile("images/reset.png"))
         {
             std::cerr << "Failed to load play!" << std::endl;
-            return false;
         }
 
         reset.setTexture(resetTexture);
-        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setTextureRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
         reset.setPosition(1300, 200);
 
-        if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
+        if (!leaderboardTexture.loadFromFile("images/leaderboard.png"))
         {
             std::cerr << "Failed to load leaderboard!" << std::endl;
-            return false;
         }
 
-        leaderBoard.setTexture(leaderBoardTexture);
-        leaderBoard.setTextureRect(sf::IntRect(0, 0, 64, 64));
+        leaderboard.setTexture(leaderboardTexture);
+        leaderboard.setTextureRect(sf::IntRect(0, 0, 64, 64));
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
         leaderboard.setPosition(350, 850);
 
@@ -568,6 +562,14 @@ public:
         lb.players.push_back(p1);
         lb.launchLeaderboard();
     }
+
+    void handleClick(int x, int y, sf::Mouse::Button button, sf::RenderWindow& window){
+        auto mouse_pos = sf::Mouse::getPosition(window);
+        auto translated_pos = window.mapPixelToCoords(mouse_pos);
+        if(upgrade.getGlobalBounds().contains(translated_pos)){
+            uw.launchUpgradeWindow();
+        }
+    }
     
     void run(std::string name) {
         sf::Font font;
@@ -605,7 +607,7 @@ public:
             //draw buttons
             upgradeTexture.loadFromFile("images/upgradebutton.png");
             upgrade.setTexture(upgradeTexture);
-            upgrade.setPosition(200, 1000);
+            upgrade.setPosition(160, 850);
             upgrade.setScale(sf::Vector2f(0.2, 0.2));
             gameWindow.draw(upgrade);
             //draw buildings 
