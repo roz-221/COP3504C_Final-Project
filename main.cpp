@@ -813,8 +813,8 @@ public:
         float earningsTime = earningsClock.getElapsedTime().asSeconds();
         if (earningsTime >= 1.0f) {
             balance += getEarnings();
+            earningsClock.restart();
         }
-        earningsClock.restart();
     }
     void run(std::string name) {
         p1 = Player(name, timeElapsed);
