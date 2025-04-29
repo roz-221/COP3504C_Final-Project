@@ -436,7 +436,8 @@ class GameWindow {
     std::vector<Building> buildings;
     unsigned int height;
     unsigned int width;
-    
+    UpgradeWindow uw;
+
     bool gameWon;
     Player p1;
 
@@ -542,12 +543,11 @@ public:
         lb.players.push_back(p1);
         lb.launchLeaderboard();
     }
-    
+
     void handleClick(int x, int y, sf::Mouse::Button button, sf::RenderWindow& window){
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos);
         if(upgrade.getGlobalBounds().contains(translated_pos)){
-            UpgradeWindow uw;
             uw.launchUpgradeWindow();
         }
     }
