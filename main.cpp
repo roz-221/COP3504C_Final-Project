@@ -22,13 +22,13 @@ private:
     unsigned int time;
     std::string name;
 public:
-    User()
+    Player()
     {
         time = 0;
         name = "";
     }
 
-    Player(unsigned int time, std::string name)
+    Player(std::string name, unsigned int time)
     {
         this->time = time;
         this->name = name;
@@ -57,28 +57,76 @@ public:
 
 class Building {
     std::string name;
-    int building_count;
-    int building_price;
+    unsigned int building_count;
+    float original_building_price;
+    float current_building_price;
     sf::Sprite building_sprite;
-    sf::Texture building_texture
-        int earn_rate;
-    bool unlocked;
+    sf::Texture building_texture;
+    int earn_rate;
 
 public:
-    Building() : building_count(0), building_price(0), earn_rate(0), unlocked(false) {}
+    Building() : building_count(0), building_price(0), earn_rate(0) {}
 
-    Building(int building_count, int building_price, int earn_rate, sf::Sprite sprite) {
-        this->building_count = building_count;
-        this->building_price = building_price;
-        this->earn_rate = earn_rate;
-        this->building_sprite = sprite;
+    Building(std::string name) {
+        this->name = name;
+    }
+
+    void setAllPrice()
+    {
+        if (name == "concessions")
+        {
+            original_building_price = 50;
+            earn_rate = 10;
+        }
+
+        else if (name == "bull")
+        {
+            original_building_price = 400;
+            earn_rate = 100;
+        }
+
+        else if (name == "coaster")
+        {
+            original_building_price = 2500;
+            earn_rate = 250;
+        }
+
+        else if (name == "ferriswheel")
+        {
+            original_building_price = 15000;
+            earn_rate = 1500;
+        }
+
+        else if (name == "teacups")
+        {
+            original_building_price = 100000;
+            earn_rate = 8000;
+        }
+
+        else if (name == "bumper cars")
+        {
+            original_building_price = 500000;
+            earn_rate = 40000;
+        }
+
+        else if (name == "gokarts")
+        {
+            original_building_price = 2500000;
+            earn_rate = 200000;
+        }
+
+        else if (name == "droptower")
+        {
+            original_building_price = 15000000;
+            earn_rate = 1500000;
+        }
     }
 
     int purchaseBuilding() {
-        int original_price = building_price;
+        current_building_price = original_building_price;
         building_count += 1;
-        building_price *= 1.08;
-        return original_price;
+        current_building_price *= 1.08;
+        return (current_building_price / 1.08);
     }
 
     int getEarnRate() {
@@ -89,9 +137,6 @@ public:
     }
     int getBuildingPrice() {
         return building_price;
-    }
-    int getUnlocked() {
-        return unlocked;
     }
     std::string getName() {
         return name;
@@ -124,48 +169,134 @@ public:
     }
 };
 
+struct Leaderboard 
+{
+    int width;
+    int height;
+    sf::Font font;
+    std::vector<Player> players;
+
+    Leaderboard() 
+    {
+        width = 600;
+        height = 800;
+        if (!font.loadFromFile("font.ttf"))
+        {
+            std::cout << "Failed to open font file!" << std::endl;
+        }
+        players = { Player("Monish", 5), Player("Joe", 6), Player("Bill", 7) };
+    }
+
+    void launchLeaderboard() {
+        sf::RenderWindow leaderBoardWindow(sf::VideoMode({ width, height }), "Welcome", sf::Style::Default);
+        while (leaderBoardWindow.isOpen()) {
+            sf::Event event;
+            while (leaderBoardWindow.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    leaderBoardWindow.close();
+                    exit(0);
+                }
+
+                leaderBoardWindow.setFramerateLimit(60);
+
+                //draw background
+                sf::RectangleShape background(sf::Vector2f(width, height));
+                background.setFillColor(sf::Color::Blue);
+
+                //create title text
+                sf::Text mainText("User Leaderboard", font);
+                mainText.setPosition(sf::Vector2f(width / 4, 0));
+                mainText.setColor(sf::Color::Black);
+
+                leaderBoardWindow.draw(background);
+                //draw player list
+                for (int i = 0; i < players.size(); i++) {
+                    std::cout << players.at(i).name;
+                    sf::Text playerText(players.at(i).name + " : " + std::to_string(players.at(i).time + " minutes", font));
+                    playerText.setColor(sf::Color::Black);
+                    sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
+                    playerText.setOrigin(center.x, center.y);
+                    playerText.setPosition(sf::Vector2f(leaderBoardWindow.getSize().x / 2.f, 50 + (i * 50)));
+                    leaderBoardWindow.draw(playerText);
+                }
+                leaderBoardWindow.draw(mainText);
+                leaderBoardWindow.display();
+            }
+        }
+    }
+};
+
+
 class GameWindow {
     float balance;
     sf::Sprite avatar; // Winning & Normal
 
     // Buttons
-    sf::Sprite pause;
+    bool isPaused;
+    unsigned int timeElapsed = 0;
+    sf::Time pausedTime;
+    sf::Time pauseStartTime;
+    sf::Clock gameClock;
+    sf::Sprite pausePlayButton;
+    sf::Texture pauseTexture;
+    sf::Texture playTexture;
+
     sf::Sprite reset;
+    sf::Texture resetTexture;
+
     sf::Sprite leaderboard;
+    sf::Texture leaderboardTexture;
+    Leaderboard lb;
+
     sf::Sprite upgrade;
+    sf::Texture upgradeTexture;
 
     std::vector<Building> buildings;
-    int height;
-    int width;
-    bool paused;
-    bool reset;
+    unsigned int height;
+    unsigned int width;
+    
+    bool gameWon;
+    Player p1;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1200), {}
-        void loadTextures() {
-        for (size_t i = 0; i < buildings.size(); ++i) {
-            std::string filename = "images/";
-            filename += buildings.at(i).getName();
-            buildings.at(i).setTexture(filename);
-        }
-    }
-    void togglePause() {
-        if (paused) {
+    GameWindow() : balance(50), width(1500), height(1200) {}
+    
+    void loadTextures()
+    {
 
-        }
     }
-    void toggleReset() {
-        // Set everything to default
-        if (reset) {
+  
+    void togglePause() 
+    {
+        isPaused = !isPaused;
 
+        if (isPaused) {
+            pauseStartTime = gameClock.getElapsedTime();
+            pausePlayButton.setTexture(playTexture);
+        }
+        else {
+            pausedTime += gameClock.getElapsedTime() - pauseStartTime;
+            pausePlayButton.setTexture(pauseTexture);
         }
     }
-    void toggleLeaderboard() {
-        // load leaderboard
+    void toggleReset() 
+    {
+        gameClock.restart();
+
+        balance = 50;
+
+        for (size_t i = 0; i < buildings.size(); i++)
+        {
+            buildings[i].setBuildingCount(0);
+        }
     }
-    void handleClick(int x, int y, sf::Mouse::button button) {
-        // IDK
+
+    void toggleLeaderboard() 
+    {
+        lb.players.push_back(p1);
+        lb.launchLeaderboard();
     }
+    
     void run() {
         sf::Font font;
         if (!font.loadFromFile("font.ttf")) {
