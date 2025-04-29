@@ -236,6 +236,7 @@ class Building {
 
     unsigned int building_count;
     sf::Text buildingCount;
+    sf::RectangleShape countRectangle;
 
     int original_building_price;
     int current_building_price;
@@ -379,6 +380,13 @@ public:
     sf::Text getBuildingPriceText() {
         return currentBuildingPrice;
     }
+    sf::RectangleShape getCountRectangle() {
+        return countRectangle;
+    }
+    sf::Text getCountText() {
+        return buildingCount;
+    }
+
     void setEarnRate(int rate) {
         earn_rate = rate;
     }
@@ -391,6 +399,8 @@ public:
     void setBuildingSprite(sf::Sprite sprite) {
         building_sprite = sprite;
     }
+    // sf::Text buildingCount;
+    //sf::RectangleShape countRectangle;
 
     void setBuildingTexture()
     {
@@ -414,47 +424,72 @@ public:
         currentBuildingPrice.setFont(font);
         currentBuildingPrice.setCharacterSize(20);
         currentBuildingPrice.setFillColor(sf::Color(0, 100, 0));
+        countRectangle.setSize(sf::Vector2f(50, 50));
+        countRectangle.setOutlineColor(sf::Color::Black);
+        countRectangle.setOutlineThickness(3.0f);
+        buildingCount.setString(std::to_string(building_count) + "x");
+        sf::FloatRect countTextRect = buildingCount.getLocalBounds();
+        buildingCount.setOrigin(countTextRect.left + countTextRect.width / 2.0f, countTextRect.top + countTextRect.height / 2.0f);
+        buildingCount.setFont(font);
+        buildingCount.setCharacterSize(20);
+        buildingCount.setFillColor(sf::Color::Black);
 
         if (name == "concessions") {
             building_sprite.setPosition(sf::Vector2f(275, 200));
             outline_rectangle.setPosition(sf::Vector2f(275, 200));
             buildingPriceButton.setPosition(sf::Vector2f(275, 403));
             currentBuildingPrice.setPosition(sf::Vector2f(350, 428));
+            countRectangle.setPosition(sf::Vector2f(425, 403));
+            buildingCount.setPosition(sf::Vector2f(450, 428));
         } else if (name == "bull") {
             building_sprite.setPosition(sf::Vector2f(275, 600));
             outline_rectangle.setPosition(sf::Vector2f(275, 600));
             buildingPriceButton.setPosition(sf::Vector2f(275, 803));
             currentBuildingPrice.setPosition(sf::Vector2f(350, 828));
+            countRectangle.setPosition(sf::Vector2f(425, 803));
+            buildingCount.setPosition(sf::Vector2f(450, 828));
         } else if (name == "coaster") {
             building_sprite.setPosition(sf::Vector2f(525, 200));
             outline_rectangle.setPosition(sf::Vector2f(525, 200));
             buildingPriceButton.setPosition(sf::Vector2f(525, 403));
             currentBuildingPrice.setPosition(sf::Vector2f(600, 428));
+            countRectangle.setPosition(sf::Vector2f(675, 403));
+            buildingCount.setPosition(sf::Vector2f(700, 428));
         } else if (name == "ferriswheel") {
             building_sprite.setPosition(sf::Vector2f(525, 600));
             outline_rectangle.setPosition(sf::Vector2f(525, 600));
             buildingPriceButton.setPosition(sf::Vector2f(525, 803));
             currentBuildingPrice.setPosition(sf::Vector2f(600, 828));
+            countRectangle.setPosition(sf::Vector2f(675, 803));
+            buildingCount.setPosition(sf::Vector2f(700, 828));
         } else if (name == "teacups") {
             building_sprite.setPosition(sf::Vector2f(775, 200));
             outline_rectangle.setPosition(sf::Vector2f(775, 200));
             buildingPriceButton.setPosition(sf::Vector2f(775, 403));
             currentBuildingPrice.setPosition(sf::Vector2f(850, 428));
+            countRectangle.setPosition(sf::Vector2f(925, 403));
+            buildingCount.setPosition(sf::Vector2f(950, 428));
         } else if (name == "bumper cars") {
             building_sprite.setPosition(sf::Vector2f(775, 600));
             outline_rectangle.setPosition(sf::Vector2f(775, 600));
             buildingPriceButton.setPosition(sf::Vector2f(775, 803));
             currentBuildingPrice.setPosition(sf::Vector2f(850, 828));
+            countRectangle.setPosition(sf::Vector2f(925, 803));
+            buildingCount.setPosition(sf::Vector2f(950, 828));
         } else if (name == "gokarts") {
             building_sprite.setPosition(sf::Vector2f(1025, 200));
             outline_rectangle.setPosition(sf::Vector2f(1025, 200));
             buildingPriceButton.setPosition(sf::Vector2f(1025, 403));
             currentBuildingPrice.setPosition(sf::Vector2f(1100, 428));
+            countRectangle.setPosition(sf::Vector2f(1175, 403));
+            buildingCount.setPosition(sf::Vector2f(1200, 428));
         } else if (name == "droptower") {
             building_sprite.setPosition(sf::Vector2f(1025, 600));
             outline_rectangle.setPosition(sf::Vector2f(1025, 600));
             buildingPriceButton.setPosition(sf::Vector2f(1025, 803));
             currentBuildingPrice.setPosition(sf::Vector2f(1100, 828));
+            countRectangle.setPosition(sf::Vector2f(1175, 803));
+            buildingCount.setPosition(sf::Vector2f(1200, 828));
         }
     }
 };
@@ -579,7 +614,7 @@ class GameWindow {
     sf::Clock earningsClock;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1000) 
+    GameWindow() : balance(50), width(1500), height(1000)
     {
         if (!font.loadFromFile("font.ttf"))
         {
@@ -700,8 +735,8 @@ public:
             buildings[i].setBuildingTexture();
         }
     }
-  
-    void togglePause() 
+
+    void togglePause()
     {
         isPaused = !isPaused;
 
@@ -714,7 +749,7 @@ public:
             pausePlayButton.setTexture(pauseTexture);
         }
     }
-    void toggleReset() 
+    void toggleReset()
     {
         gameClock.restart();
 
@@ -726,7 +761,7 @@ public:
         }
     }
 
-    void toggleLeaderboard() 
+    void toggleLeaderboard()
     {
         lb.players.push_back(p1);
         lb.launchLeaderboard();
@@ -757,7 +792,7 @@ public:
 
         else {
             for (size_t i = 0; i < buildings.size(); ++i) {
-                if (buildings[i].getBuildingSprite().getGlobalBounds().contains(mousePos.x, mousePos.y)) 
+                if (buildings[i].getBuildingSprite().getGlobalBounds().contains(mousePos.x, mousePos.y))
                 {
                     balance -= buildings[i].purchaseBuilding();
                 }
@@ -802,7 +837,7 @@ public:
                 if (event.type == sf::Event::Closed) {
                     gameWindow.close();
                 }
-                if (event.type == sf::Event::MouseButtonPressed) 
+                if (event.type == sf::Event::MouseButtonPressed)
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
@@ -850,12 +885,14 @@ public:
             gameWindow.draw(reset);
             gameWindow.draw(totalBalance);
             drawTimer(gameWindow);
-            //draw buildings 
+            //draw buildings
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getOutlineRectangle());
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
                 gameWindow.draw(buildings.at(i).getBuildingPriceButton());
                 gameWindow.draw(buildings.at(i).getBuildingPriceText());
+                gameWindow.draw(buildings.at(i).getCountRectangle());
+                gameWindow.draw(buildings.at(i).getCountText());
             }
             //Update Earnings
             updateEarnings();
@@ -865,7 +902,7 @@ public:
             if (gameWon) {
                 lb.launchLeaderboard();
             }
-            
+
             gameWindow.display();
 
         }
