@@ -42,6 +42,9 @@ class Building {
     int getUnlocked() {
       return unlocked;
     }
+    std::string getName() {
+      return name;
+    }
     sf::Sprite getBuildingSprite() {
       return building_sprite;
     }
