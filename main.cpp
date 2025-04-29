@@ -323,7 +323,7 @@ public:
         lb.launchLeaderboard();
     }
     
-    void run() {
+    void run(std::string name) {
         sf::Font font;
         if (!font.loadFromFile("font.ttf")) {
             std::cout << "Failed to read font file." << std::endl;
@@ -331,7 +331,11 @@ public:
         }
 
         sf::RenderWindow gameWindow(sf::VideoMode({ width, height }), "Game Window");
-        sf::Text title("Testing's Tycoon", font, 30);
+        sf::Text title(name + "'s Tycoon", font, 30);
+        title.setColor(sf::Color::Black);
+        sf::Vector2f center = title.getLocalBounds().getSize() / 2.f;
+        title.setOrigin(center.x, center.y);
+        title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 10));
 
         while (gameWindow.isOpen()) {
             sf::Event event;
@@ -344,12 +348,13 @@ public:
                 }
             }
             // Change to money picture
-            gameWindow.clear(sf::Color::White);
+            gameWindow.clear(sf::Color::Blue);
 
             gameWindow.draw(title);
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
+            gameWindow.display();
 
         }
     }
@@ -376,7 +381,7 @@ public:
         }
     }
 
-    void launchWelcomeWindow()
+    std::string launchWelcomeWindow()
     {
         //Create Welcome Window
         sf::RenderWindow welcomeWindow(sf::VideoMode({ width, height }), "Welcome", sf::Style::Default);
@@ -498,6 +503,7 @@ public:
             }
             welcomeWindow.display();
         }
+        return playerName;
     }
 };
 
@@ -505,10 +511,10 @@ int main()
 {
     WelcomeWindow ww;
 
-    ww.launchWelcomeWindow();
+    std::string userName = ww.launchWelcomeWindow();
 
     GameWindow gw;
-    gw.run();
+    gw.run(userName);
 
     return 0;
 }
