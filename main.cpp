@@ -323,7 +323,7 @@ public:
     int purchaseBuilding() {
         current_building_price = original_building_price;
         currentBuildingPrice = sf::Text("$" + std::to_string(current_building_price), font, 10);
-        buildingCount = sf::Text("Building Count: "std::to_string(building_count), font, 10);
+        buildingCount = sf::Text("Building Count: " + std::to_string(building_count), font, 10);
         earnRate = sf::Text(std::to_string(earn_rate) + "$/s", font, 10);
         building_count += 1;
         current_building_price *= 1.08;
@@ -583,10 +583,6 @@ public:
         {
             std::cerr << "Failed to load digits!" << std::endl;
         }
-
-        totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
-        totalBalance.setFillColor(sf::Color::Black);
-        totalBalance.setPosition(700, 200);
 
         if (!avatarTexture.loadFromFile("images/avatar.png"))
         {
