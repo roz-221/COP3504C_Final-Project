@@ -411,7 +411,6 @@ struct Leaderboard{
             while(leaderBoardWindow.pollEvent(event)){
                 if(event.type == sf::Event::Closed){
                     leaderBoardWindow.close();
-                    exit(0);
                 }
 
                 leaderBoardWindow.setFramerateLimit(60);
