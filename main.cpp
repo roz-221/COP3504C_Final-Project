@@ -257,6 +257,7 @@ struct Leaderboard{
 class GameWindow {
     float balance;
     sf::Sprite avatar; // Winning & Normal
+    sf::Texture avatarTexture;
 
     // Buttons
     bool isPaused;
@@ -311,6 +312,16 @@ public:
         reset.setTexture(resetTexture);
         reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
         reset.setScale(100 / 106.0, 100 / 106.0);
+
+        if (!resetTexture.loadFromFile("images/reset.png"))
+        {
+            std::cerr << "Failed to load play!" << std::endl;
+            return false;
+        }
+
+        reset.setTexture(resetTexture);
+        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setScale(100 / 106.0, 100 / 106.0);
         //reset.setPosition()
 
         if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
@@ -350,10 +361,6 @@ public:
         //{
             //buildings[i].setPosition();
         //}
-    }
-
-    void handleClick(int x, int y, sf::Mouse::Button){
-
     }
   
     void togglePause() 
