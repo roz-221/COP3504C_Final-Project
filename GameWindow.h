@@ -11,6 +11,7 @@ class GameWindow {
     sf::Sprite leaderboard;
     sf::Sprite upgrade;
 
+    sf::Sprite backdrop;
     std::vector<Building> buildings;
     int height;
     int width;
@@ -53,6 +54,27 @@ public:
         sf::RenderWindow gameWindow(sf::VideoMode({width, height}), "Game Window");
         sf::Text title(font, "Testing's Tycoon", 30);
         
+        // Set Textures
+        sf::Texture background;
+        background.loadFromFile("images/background_screen.png")''
+        backdrop.setTexture(background);
+        
+        sf::Texture pausebutton;
+        pausebutton.loadFromFile("images/pause.png");
+        pause.setTexture(pausebutton);
+
+        sf::Texture resetbutton;
+        resetbutton.loadFromFile("images/reset.png");
+        reset.setTexture(resetbutton);
+
+        buildings.loadTextures();
+
+        // Set Positions
+        pause.setPosition({200.f, 100.f});
+        reset.setPosition({1200.f, 100.f});
+        title.setPosition({700.f, 80.f});
+        
+        // Run Game Window
         while (gameWindow.isOpen()) {
             sf::Event event;
             while (gameWindow.pollEvent(event)) {
@@ -66,11 +88,29 @@ public:
             // Change to money picture
             gameWindow.clear(sf::Color::White);
 
+            // Draw Everything
+            gameWindow.draw(backdrop);
             gameWindow.draw(title);
-            for (size_t i = 0; i < buildings.size(); ++i) {
-                gameWindow.draw(buildings.at(i).getBuildingSprite());
+            gameWindow.draw(pause);
+            gameWindow.draw(reset);
+
+            sf::Vector2f topBuildingPosition(300.f, 200.f);
+            for (size_t i = 0; i < ; i++) {
+                sf::Sprite building = buildings.at(i).getBuildingSprite();
+                building.setPosition(topBuildingPosition());
+                gameWindow.draw(building);
+                topBuildingPosition.x += 50.f;
             }
 
+            sf::Vector2f bottomBuildingPosition(300.f, 600.f);
+            for (size_t j = 4; j < buildings.size(); j++) {
+                sf::Sprite building = buildings.at(j).getBuildingSprite();
+                building.setPosition(topBuildingPosition());
+                gameWindow.draw(building);
+                bottomBuildingPosition.x += 50.f;
+            }
+
+            gameWindow.display();
         }
     }
 }  
