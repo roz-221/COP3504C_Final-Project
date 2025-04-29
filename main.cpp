@@ -601,9 +601,9 @@ public:
             }
         }
 
-        if (timeElapsed > 999)
+        if (timeElapsed > 3599)
         {
-            timeElapsed = 999;
+            timeElapsed = 3599;
         }
 
         int minutes = timeElapsed / 60;
