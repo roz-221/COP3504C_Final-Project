@@ -462,7 +462,7 @@ public:
         sf::FloatRect costTextRect = currentBuildingPrice.getLocalBounds();
         currentBuildingPrice.setOrigin(costTextRect.left + costTextRect.width / 2.0f, costTextRect.top + costTextRect.height / 2.0f);
         currentBuildingPrice.setFont(font);
-        currentBuildingPrice.setCharacterSize(20);
+        currentBuildingPrice.setCharacterSize(15);
         currentBuildingPrice.setFillColor(sf::Color(0, 100, 0));
         countRectangle.setSize(sf::Vector2f(50, 50));
         countRectangle.setOutlineColor(sf::Color::Black);
@@ -471,7 +471,7 @@ public:
         sf::FloatRect countTextRect = buildingCount.getLocalBounds();
         buildingCount.setOrigin(countTextRect.left + countTextRect.width / 2.0f, countTextRect.top + countTextRect.height / 2.0f);
         buildingCount.setFont(font);
-        buildingCount.setCharacterSize(20);
+        buildingCount.setCharacterSize(18);
         buildingCount.setFillColor(sf::Color::Black);
 
         if (name == "concessions") {
