@@ -157,6 +157,14 @@ class UpgradeWindow {
               }
             }
           }
+
+          if (gold) {
+              goldPurchaseText.setStyle(sf::Text::StrikeThrough);
+          }
+          if (discount) {
+              discountPurchaseText.setStyle(sf::Text::StrikeThrough);
+          }
+            
           upgradeWindow.clear();
           upgradeWindow.draw(background);
           upgradeWindow.draw(multiplierPurchase);
@@ -314,7 +322,7 @@ public:
     int purchaseBuilding() {
         current_building_price = original_building_price;
         currentBuildingPrice = sf::Text("$" + std::to_string(current_building_price), font, 10);
-        buildingCount = sf::Text(std::to_string(current_building_count), font, 10);
+        buildingCount = sf::Text(std::to_string(building_count), font, 10);
         earnRate = sf::Text(std::to_string(earn_rate), font, 10);
         building_count += 1;
         current_building_price *= 1.08;
@@ -541,7 +549,7 @@ public:
 
         for (size_t i = 0; i < buildings.size(); i++)
         {
-            buildings[i].setAllPrice();
+            buildings[i].setAllPriceAndText();
             buildings[i].setBuildingTexture();
         }
 
@@ -689,6 +697,7 @@ public:
 
         }
     }
+}
 };
 
 class WelcomeWindow
