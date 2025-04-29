@@ -28,9 +28,13 @@ class UpgradeWindow {
       }
       void resetUpgradeWindow() {
           multiplier_cost = 100;
-          multiplier = 1;
+          multiplier = 1.0;
           discount = false;
           gold = false;
+          std::stringstream ss;
+          ss << std::fixed << std::setprecision(2) << multiplier;
+          std::string str = ss.str();
+          multiplier_string = "Current multiplier: " + str + "x";
       }    
       float getMultiplier() {
           return this->multiplier;
