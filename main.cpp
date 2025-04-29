@@ -780,7 +780,6 @@ public:
             while (welcomeWindow.pollEvent(event)) {
                 if (event.type == sf::Event::Closed) {
                     welcomeWindow.close();
-                    exit(0);
                 }
                 if (event.type == sf::Event::TextEntered)
                 {
