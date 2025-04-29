@@ -539,23 +539,23 @@ public:
         // Draw minutes
         sf::Sprite mDigit1Sprite(digits);
         mDigit1Sprite.setTextureRect(sf::IntRect(21 * mDigit1, 0, 21, 32));
-        mDigit1Sprite.setPosition((columns * 32) - 97, 32 * (rows + 0.5f) + 16);
+        mDigit1Sprite.setPosition(width - 97, height + 16);
         window.draw(mDigit1Sprite);
 
         sf::Sprite mDigit2Sprite(digits);
         mDigit2Sprite.setTextureRect(sf::IntRect(21 * mDigit2, 0, 21, 32));
-        mDigit2Sprite.setPosition((columns * 32) - 76, 32 * (rows + 0.5f) + 16);
+        mDigit2Sprite.setPosition(width - 76, height + 16);
         window.draw(mDigit2Sprite);
 
         // Draw seconds
         sf::Sprite sDigit1Sprite(digits);
         sDigit1Sprite.setTextureRect(sf::IntRect(21 * sDigit1, 0, 21, 32));
-        sDigit1Sprite.setPosition((columns * 32) - 55, 32 * (rows + 0.5f) + 16);
+        sDigit1Sprite.setPosition(width - 55, height + 16);
         window.draw(sDigit1Sprite);
 
         sf::Sprite sDigit2Sprite(digits);
         sDigit2Sprite.setTextureRect(sf::IntRect(21 * sDigit2, 0, 21, 32));
-        sDigit2Sprite.setPosition((columns * 32) - 34, 32 * (rows + 0.5f) + 16);
+        sDigit2Sprite.setPosition(width - 34, height + 16);
         window.draw(sDigit2Sprite);
     }
 
@@ -754,7 +754,7 @@ public:
             gameWindow.draw(avatar);
             gameWindow.draw(pausePlayButton);
             gameWindow.draw(reset);
-            //gameWindow.draw(timer);
+            drawTimer(gameWindow);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
