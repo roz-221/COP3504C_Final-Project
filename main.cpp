@@ -613,7 +613,7 @@ struct Leaderboard{
 };
 
 class GameWindow {
-    int balance;
+    unsigned int balance;
     sf::Text totalBalance;
 
     sf::Font font;
@@ -834,7 +834,9 @@ public:
             for (size_t i = 0; i < buildings.size(); ++i) {
                 if (buildings[i].getBuildingSprite().getGlobalBounds().contains(mousePos.x, mousePos.y))
                 {
-                    balance -= buildings[i].purchaseBuilding();
+                    if (balance >= buildings[i].getBuildingPrice()) {
+                        balance -= buildings[i].purchaseBuilding();
+                    }
                 }
             }
         }
