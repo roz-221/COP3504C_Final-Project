@@ -361,10 +361,29 @@ public:
     {
         if (!building_texture.loadFromFile("images/" + name + ".png"))
         {
-            std::cerr << "Failed to load hidden tile!" << std::endl;
+            std::cerr << "Failed to load " + name + " image!" << std::endl;
         }
+
         building_sprite.setTexture(building_texture);
-        building_sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
+        building_sprite.setScale(200.0f/(building_texture.getSize().x), 200.0f/(building_texture.getSize().y));
+        building_sprite.setPosition(100,100);
+        if (name == "concessions") {
+            building_sprite.setPosition(sf::Vector2f(275, 200));
+        } else if (name == "bull") {
+            building_sprite.setPosition(sf::Vector2f(275, 600));
+        } else if (name == "coaster") {
+            building_sprite.setPosition(sf::Vector2f(525, 200));
+        } else if (name == "ferriswheel") {
+            building_sprite.setPosition(sf::Vector2f(525, 600));
+        } else if (name == "teacups") {
+            building_sprite.setPosition(sf::Vector2f(775, 200));
+        } else if (name == "bumper cars") {
+            building_sprite.setPosition(sf::Vector2f(775, 600));
+        } else if (name == "gokarts") {
+            building_sprite.setPosition(sf::Vector2f(1025, 200));
+        } else if (name == "droptower") {
+            building_sprite.setPosition(sf::Vector2f(1025, 600));
+        }
     }
 };
 
@@ -599,18 +618,6 @@ public:
             buildings[i].setAllPriceAndText();
             buildings[i].setBuildingTexture();
         }
-
-        //buildings[0].setPosition()
-        //for (size_t i = 1; i < 4; i++)
-        //{
-            //buildings[i].setPosition();
-        //}
- 
-        //buildings[4].setPosition();
-        //for (size_t i = 5; i < 8; i++)
-        //{
-            //buildings[i].setPosition();
-        //}
     }
   
     void togglePause() 
@@ -750,7 +757,7 @@ public:
             //gameWindow.draw(timer);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
-                //gameWindow.draw(buildings.at(i).getBuildingSprite());
+                gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
             gameWindow.display();
 
