@@ -610,7 +610,7 @@ public:
         }
 
         //Leaderborad Check
-        if (leaderBoard.getGlobalBounds().contains(translated_pos))
+        if (leaderboard.getGlobalBounds().contains(translated_pos))
         {
             toggleLeaderboard();
         }
@@ -691,6 +691,7 @@ public:
 
         }
     }
+}
 };
 
 class WelcomeWindow
