@@ -35,7 +35,7 @@ class UpgradeWindow {
           ss << std::fixed << std::setprecision(2) << multiplier;
           std::string str = ss.str();
           multiplier_string = "Current multiplier: " + str + "x";
-      }    
+      }
       float getMultiplier() {
           return this->multiplier;
       }
@@ -180,7 +180,7 @@ class UpgradeWindow {
           if (discount) {
               discountPurchaseText.setStyle(sf::Text::StrikeThrough);
           }
-            
+
           upgradeWindow.clear();
           upgradeWindow.draw(background);
           upgradeWindow.draw(multiplierPurchase);
@@ -299,7 +299,7 @@ public:
     {
         if (name == "concessions")
         {
-            
+
             original_building_price = 50;
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
@@ -587,7 +587,7 @@ struct Leaderboard{
     }
 
     void launchLeaderboard(){
-        sf::RenderWindow leaderBoardWindow(sf::VideoMode({ width, height }), "Welcome", sf::Style::Default);
+        sf::RenderWindow leaderBoardWindow(sf::VideoMode({ width, height }), "Leaderboard", sf::Style::Default);
         while(leaderBoardWindow.isOpen()){
             sf::Event event;
             while(leaderBoardWindow.pollEvent(event)){
@@ -603,14 +603,14 @@ struct Leaderboard{
 
                 //create title text
                 sf::Text mainText("User Leaderboard", font);
+                mainText.setFillColor(sf::Color::White);
                 mainText.setPosition(sf::Vector2f(width/4, 0));
-                mainText.setFillColor(sf::Color::Black);
 
                 leaderBoardWindow.draw(background);
                 //draw player list
                 for(int i = 0; i < players.size(); i++){
                     sf::Text playerText((players.at(i).getName() + " : " + std::to_string(players.at(i).getTime())) + " seconds", font);
-                    playerText.setFillColor(sf::Color::Black);
+                    playerText.setFillColor(sf::Color::White);
                     sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
                     playerText.setOrigin(center.x, center.y);
                     playerText.setPosition(sf::Vector2f(leaderBoardWindow.getSize().x / 2.f, 50 + (i * 50))) ;
@@ -776,9 +776,6 @@ public:
         leaderboard.setScale(100 / 64.0, 100 / 64.0);
         leaderboard.setPosition(40, 860);
 
-        pausePlayButton.setPosition(750,860);
-        pausePlayButton.setTexture(pauseTexture);
-
         buildings[0].setName("concessions");
         buildings[1].setName("bull");
         buildings[2].setName("coaster");
@@ -792,6 +789,10 @@ public:
         {
             buildings[i].setAllPriceAndText();
             buildings[i].setBuildingTexture();
+        }
+
+        if (!isPaused) {
+            pausePlayButton.setTexture(pauseTexture);
         }
     }
 
@@ -895,6 +896,19 @@ public:
         title.setOrigin(center.x, center.y);
         title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 15));
 
+        sf::RectangleShape currentEarningsRectangle(sf::Vector2f(600, 60));
+        currentEarningsRectangle.setFillColor(sf::Color::White);
+        currentEarningsRectangle.setOutlineColor(sf::Color::Black);
+        currentEarningsRectangle.setOutlineThickness(3.0f);
+        currentEarningsRectangle.setPosition(sf::Vector2f(450, 900));
+        std::string currentEarningsString = std::to_string(getEarnings());
+        sf::Text currentEarningsText("Current Earnings Per Second: $" + currentEarningsString, font, 22);
+        currentEarningsText.setFillColor(sf::Color::Black);
+        sf::FloatRect earningsTextRect = currentEarningsText.getLocalBounds();
+        currentEarningsText.setOrigin(earningsTextRect.left + earningsTextRect.width / 2.0f, earningsTextRect.top + earningsTextRect.height / 2.0f);
+        currentEarningsText.setPosition(750, 930);
+
+
         bool discount_applied = false;
 
         while (gameWindow.isOpen()) {
@@ -913,6 +927,11 @@ public:
                     }
                 }
             }
+
+            currentEarningsString = std::to_string(getEarnings());
+            currentEarningsText.setString("Current Earnings Per Second: $" + currentEarningsString);
+            earningsTextRect = currentEarningsText.getLocalBounds();
+            currentEarningsText.setOrigin(earningsTextRect.left + earningsTextRect.width / 2.0f, earningsTextRect.top + earningsTextRect.height / 2.0f);
             // Change background to money picture or gold picture depending on upgrades
             if (!uw.getGold()) {
                 gameWindow.clear(sf::Color::Blue);
@@ -936,6 +955,8 @@ public:
                 discount_applied = true;
             }
 
+            pausePlayButton.setPosition(1410, 860);
+
             loadTextures();
             //draw title
             gameWindow.draw(title);
@@ -957,6 +978,8 @@ public:
             gameWindow.draw(pausePlayButton);
             gameWindow.draw(reset);
             gameWindow.draw(totalBalance);
+            gameWindow.draw(currentEarningsRectangle);
+            gameWindow.draw(currentEarningsText);
             drawTimer(gameWindow);
             //draw buildings
             for (size_t i = 0; i < buildings.size(); ++i) {
