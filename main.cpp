@@ -774,6 +774,13 @@ public:
             loadTextures();
             //draw title
             gameWindow.draw(title);
+            //draw balance
+            sf::Text balanceText("Balance: " + std::to_string(balance), font);
+            sf::Vector2f balanceCenter = balanceText.getLocalBounds().getSize() / 2.f;
+            balanceText.setOrigin(balanceCenter);
+            balanceText.setPosition(sf::Vector2f(title.getPosition().x + 400, 10));
+            balanceText.setColor(sf::Color::Black);
+            gameWindow.draw(balanceText);
             //draw buttons
             upgradeTexture.loadFromFile("images/upgradebutton.png");
             upgrade.setTexture(upgradeTexture);
