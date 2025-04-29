@@ -227,6 +227,11 @@ public:
         this->name = name;
     }
 
+    void setName(std::string name)
+    {
+        this->name = name;
+    }
+
     void setAllPrice()
     {
         if (name == "concessions")
@@ -325,8 +330,8 @@ public:
 };
 
 struct Leaderboard{
-    int width;
-    int height;
+    unsigned int width;
+    unsigned int height;
     sf::Font font;
     std::vector<Player> players;
 
@@ -441,7 +446,66 @@ public:
     
     void loadTextures()
     {
+        if (!pauseTexture.loadFromFile("images/pause.png"))
+        {
+            std::cerr << "Failed to load pause!" << std::endl;
+            return false;
+        }
 
+        if (!playTexture.loadFromFile("images/play.png"))
+        {
+            std::cerr << "Failed to load play!" << std::endl;
+            return false;
+        }
+
+        if (!resetTexture.loadFromFile("images/reset.png"))
+        {
+            std::cerr << "Failed to load play!" << std::endl;
+            return false;
+        }
+
+        reset.setTexture(resetTexture);
+        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setScale(100 / 106.0, 100 / 106.0);
+        //reset.setPosition()
+
+        if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
+        {
+            std::cerr << "Failed to load leaderboard!" << std::endl;
+            return false;
+        }
+
+        leaderBoard.setTexture(leaderBoardTexture);
+        leaderBoard.setTextureRect(sf::IntRect(0, 0, 64, 64));
+        leaderboard.setScale(100 / 64.0, 100 / 64.0);
+        //leaderboard.setPosition()
+
+        buildings[0].setName("concessions");
+        buildings[1].setName("bull");
+        buildings[2].setName("coaster");
+        buildings[3].setName("ferriswheel");
+        buildings[4].setName("teacups");
+        buildings[5].setName("bumper cars");
+        buildings[6].setName("gokarts");
+        buildings[7].setName("droptower");
+
+        for (size_t i = 0; i < buildings.size(); i++)
+        {
+            buildings[i].setAllPrice();
+            buildings[i].setBuildingTexture();
+        }
+
+        //buildings[0].setPosition()
+        //for (size_t i = 1; i < 4; i++)
+        //{
+            //buildings[i].setPosition();
+        //}
+ 
+        //buildings[4].setPosition();
+        //for (size_t i = 5; i < 8; i++)
+        //{
+            //buildings[i].setPosition();
+        //}
     }
 
     void handleClick(int x, int y, sf::Mouse::Button button, sf::RenderWindow& window){
@@ -564,7 +628,7 @@ public:
         sf::RectangleShape background(sf::Vector2f(width, height));
         background.setFillColor(sf::Color::Blue);
 
-        sf::Text welcomeText("Welcome to (game_name)!", font, 24);
+        sf::Text welcomeText("Welcome to Tycoon Simulator!", font, 24);
         welcomeText.setPosition((welcomeWindow.getSize().x / 2) - (welcomeText.getLocalBounds().width / 2), welcomeWindow.getSize().y / 2 - 200);
         welcomeText.setFillColor(sf::Color::White);
         welcomeText.setStyle(sf::Text::Underlined | sf::Text::Bold);
@@ -602,7 +666,6 @@ public:
         ferrisWheelTexture.loadFromFile("images/ferriswheel.png");
         ferrisWheel.setTexture(ferrisWheelTexture);
         ferrisWheel.setPosition(sf::Vector2f(300, 300));
-        ferrisWheel.setScale(.4f, .4f);
 
         sf::Text cursor("|", font, 20);
         cursor.setFillColor(sf::Color::Yellow);
