@@ -609,7 +609,7 @@ public:
 
         if (!resetTexture.loadFromFile("images/reset.png"))
         {
-            std::cerr << "Failed to load play!" << std::endl;
+            std::cerr << "Failed to load reset!" << std::endl;
         }
 
         reset.setTexture(resetTexture);
