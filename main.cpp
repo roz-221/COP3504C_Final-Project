@@ -632,6 +632,7 @@ public:
     }
     
     void run(std::string name) {
+        p1 = Player(name, timeElapsed);
         sf::Font font;
         if (!font.loadFromFile("font.ttf")) {
             std::cout << "Failed to read font file." << std::endl;
