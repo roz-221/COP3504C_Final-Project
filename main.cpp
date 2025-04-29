@@ -23,6 +23,10 @@ class UpgradeWindow {
 
     public:
 
+      void setDiscount(bool other) {
+          this->discount = other;
+      }
+
       float getMultiplier() {
           return this->multiplier;
       }
@@ -252,8 +256,10 @@ class Building {
 
     sf::Font font;
 
+    bool discount;
+
 public:
-    Building() : building_count(0), original_building_price(0), earn_rate(0) 
+    Building() : building_count(0), original_building_price(0), earn_rate(0), discount(false)
     {
         if (!font.loadFromFile("font.ttf"))
         {
@@ -269,6 +275,9 @@ public:
     {
         this->name = name;
     }
+    void setDiscount(bool discount) {
+        this->discount = discount;
+    }
 
     void setAllPriceAndText()
     {
@@ -279,6 +288,10 @@ public:
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
             }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
+            }
             earn_rate = 10;
         }
 
@@ -287,6 +300,10 @@ public:
             original_building_price = 400;
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
+            }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
             }
             earn_rate = 100;
         }
@@ -297,6 +314,10 @@ public:
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
             }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
+            }
             earn_rate = 250;
         }
 
@@ -305,6 +326,10 @@ public:
             original_building_price = 15000;
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
+            }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
             }
             earn_rate = 1500;
         }
@@ -315,6 +340,10 @@ public:
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
             }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
+            }
             earn_rate = 8000;
         }
 
@@ -323,6 +352,10 @@ public:
             original_building_price = 500000;
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
+            }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
             }
             earn_rate = 40000;
         }
@@ -333,6 +366,10 @@ public:
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
             }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
+            }
             earn_rate = 200000;
         }
 
@@ -341,6 +378,10 @@ public:
             original_building_price = 15000000;
             if (current_building_price == 0) {
                 current_building_price = original_building_price;
+            }
+            if (discount) {
+                current_building_price *= .9;
+                discount = false;
             }
             earn_rate = 1500000;
         }
@@ -831,6 +872,8 @@ public:
         title.setOrigin(center.x, center.y);
         title.setPosition(sf::Vector2f(gameWindow.getSize().x / 2.f, 15));
 
+        bool discount_applied = false;
+
         while (gameWindow.isOpen()) {
             sf::Event event;
             while (gameWindow.pollEvent(event)) {
@@ -861,6 +904,13 @@ public:
                 sf::Sprite gold(gold_background);
                 gold.setScale(1.5f, 1.5f);
                 gameWindow.draw(gold);
+            }
+
+            if (uw.getDiscount() && !discount_applied) {
+                for (int i = 0; i < buildings.size(); ++i) {
+                    buildings[i].setDiscount(true);
+                }
+                discount_applied = true;
             }
 
             loadTextures();
