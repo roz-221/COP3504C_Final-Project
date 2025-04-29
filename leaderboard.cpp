@@ -28,7 +28,7 @@ struct Leaderboard{
                 unsigned int time = std::stoi(line);
                 std::getline(file, line);
                 std::string name = line;
-                players.push_back(Player(time, name));
+                players.push_back(Player(name, time));
             }
         }
         int n = players.size();

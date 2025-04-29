@@ -65,7 +65,7 @@ class Building {
     int earn_rate;
 
 public:
-    Building() : building_count(0), building_price(0), earn_rate(0) {}
+    Building() : building_count(0), original_building_price(0), earn_rate(0) {}
 
     Building(std::string name) {
         this->name = name;
@@ -136,7 +136,7 @@ public:
         return building_count;
     }
     int getBuildingPrice() {
-        return building_price;
+        return current_building_price;
     }
     std::string getName() {
         return name;
@@ -151,7 +151,7 @@ public:
         building_count = count;
     }
     void setBuildingPrice(int price) {
-        building_price = price;
+        original_building_price = price;
     }
     void setBuildingSprite(sf::Sprite sprite) {
         building_sprite = sprite;
@@ -162,37 +162,54 @@ public:
         if (!building_texture.loadFromFile("images/" + name + ".png"))
         {
             std::cerr << "Failed to load hidden tile!" << std::endl;
-            return false;
         }
         building_sprite.setTexture(building_texture);
-        building_sprite.setTextureRect(sf::IntRect(0, 0, 200, 200))
+        building_sprite.setTextureRect(sf::IntRect(0, 0, 200, 200));
     }
 };
 
-struct Leaderboard 
-{
+struct Leaderboard{
     int width;
     int height;
     sf::Font font;
     std::vector<Player> players;
 
-    Leaderboard() 
-    {
+    Leaderboard(){
         width = 600;
         height = 800;
         if (!font.loadFromFile("font.ttf"))
         {
             std::cout << "Failed to open font file!" << std::endl;
         }
-        players = { Player("Monish", 5), Player("Joe", 6), Player("Bill", 7) };
+        std::ifstream file("leaderboard.txt");
+        std::vector<Player> players;
+        if (file.is_open()){
+            std::string line;
+            while(std::getline(file, line)){
+                unsigned int time = std::stoi(line);
+                std::getline(file, line);
+                std::string name = line;
+                players.push_back(Player(name, time));
+            }
+        }
+        int n = players.size();
+        for(int i = 0; i < n - 1; i++){
+            for (int j = 0; j < n - i - 1; j++){
+                if (players.at(j).getTime() > players.at(j+1).getTime()){
+                    Player temp = players[j];
+                    players[j] = players[j+1];
+                    players[j+1] = temp;
+                }
+            }
+        }
     }
 
-    void launchLeaderboard() {
+    void launchLeaderboard(){
         sf::RenderWindow leaderBoardWindow(sf::VideoMode({ width, height }), "Welcome", sf::Style::Default);
-        while (leaderBoardWindow.isOpen()) {
+        while(leaderBoardWindow.isOpen()){
             sf::Event event;
-            while (leaderBoardWindow.pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
+            while(leaderBoardWindow.pollEvent(event)){
+                if(event.type == sf::Event::Closed){
                     leaderBoardWindow.close();
                     exit(0);
                 }
@@ -205,24 +222,29 @@ struct Leaderboard
 
                 //create title text
                 sf::Text mainText("User Leaderboard", font);
-                mainText.setPosition(sf::Vector2f(width / 4, 0));
+                mainText.setPosition(sf::Vector2f(width/4, 0));
                 mainText.setColor(sf::Color::Black);
 
                 leaderBoardWindow.draw(background);
                 //draw player list
-                for (int i = 0; i < players.size(); i++) {
-                    std::cout << players.at(i).name;
-                    sf::Text playerText(players.at(i).name + " : " + std::to_string(players.at(i).time + " minutes", font));
+                for(int i = 0; i < players.size(); i++){
+                    std::cout << players.at(i).getName();
+                    sf::Text playerText((players.at(i).getName() + " : " + std::to_string(players.at(i).getTime())) + " seconds", font);
                     playerText.setColor(sf::Color::Black);
                     sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
                     playerText.setOrigin(center.x, center.y);
-                    playerText.setPosition(sf::Vector2f(leaderBoardWindow.getSize().x / 2.f, 50 + (i * 50)));
+                    playerText.setPosition(sf::Vector2f(leaderBoardWindow.getSize().x / 2.f, 50 + (i * 50))) ;
                     leaderBoardWindow.draw(playerText);
                 }
                 leaderBoardWindow.draw(mainText);
                 leaderBoardWindow.display();
             }
         }
+    }
+
+    void writeStats(std::string name, unsigned int time){
+        std::ofstream log("leaderboard.txt", std::ios_base::app | std::ios_base::out);
+        log << time << "\n" << name;
     }
 };
 
@@ -265,6 +287,10 @@ public:
     {
 
     }
+
+    void handleClick(int x, int y, sf::Mouse::Button){
+
+    }
   
     void togglePause() 
     {
@@ -305,7 +331,7 @@ public:
         }
 
         sf::RenderWindow gameWindow(sf::VideoMode({ width, height }), "Game Window");
-        sf::Text title(font, "Testing's Tycoon", 30);
+        sf::Text title("Testing's Tycoon", font, 30);
 
         while (gameWindow.isOpen()) {
             sf::Event event;
@@ -327,7 +353,7 @@ public:
 
         }
     }
-}
+};
 
 class WelcomeWindow
 {
@@ -480,6 +506,9 @@ int main()
     WelcomeWindow ww;
 
     ww.launchWelcomeWindow();
+
+    GameWindow gw;
+    gw.run();
 
     return 0;
 }
