@@ -587,7 +587,8 @@ public:
         }
     }
     void wonGame() {
-        if (totalBalance >= 2000000000) {
+        std::string bal = totalBalance.getString();
+        if (std::stoi(bal) >= 2000000000) {
             gameWon = true;
         }
     }
