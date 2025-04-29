@@ -478,7 +478,7 @@ class GameWindow {
     Player p1;
 
 public:
-    GameWindow() : balance(50), width(1500), height(1000) 
+    GameWindow() : balance(50), width(1500), height(1200) 
     {
         if (!font.loadFromFile("font.ttf"))
         {
@@ -489,6 +489,7 @@ public:
     void loadTextures()
     {
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
+        totalBalance.setPosition(700, 200);
 
         if (!pauseTexture.loadFromFile("images/pause.png"))
         {
@@ -588,26 +589,25 @@ public:
         lb.launchLeaderboard();
     }
 
-    void handleClick(int x, int y, sf::Mouse::Button button, sf::RenderWindow& window){
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos);
-        if(upgrade.getGlobalBounds().contains(translated_pos)){
+    void handleClick(sf::Vector2i mousePos)
+    {
+        if(upgrade.getGlobalBounds().contains(mousePos.x, mousePos.y)){
             uw.launchUpgradeWindow();
         }
 
         //reset check
-        if (reset.getGlobalBounds().contains(translated_pos))
+        if (reset.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleReset();
         }
 
         //Leaderborad Check
-        if (leaderBoard.getGlobalBounds().contains(translated_pos))
+        if (leaderBoard.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             toggleLeaderboard();
         }
 
-        if (pausePlayButton.getGlobalBounds().contains(translated_pos))
+        if (pausePlayButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
             togglePause();
         }
@@ -647,8 +647,10 @@ public:
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        
-                        
+                        sf::Vector2i mousePos = sf::Mouse::getPosition(gameWindow);
+
+                        handleClick(mousePos);
+                    }
                 }
             }
             // Change background to money picture or gold picture depending on upgrades
@@ -667,6 +669,7 @@ public:
                 gameWindow.draw(gold);
             }
 
+            loadTextures();
             //draw title
             gameWindow.draw(title);
             //draw buttons
@@ -675,6 +678,9 @@ public:
             upgrade.setPosition(160, 850);
             upgrade.setScale(sf::Vector2f(0.2, 0.2));
             gameWindow.draw(upgrade);
+            gameWindow.draw(leaderboard);
+            gameWindow.draw(avatar);
+            gameWindow.draw(pausePlayButton);
             //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
