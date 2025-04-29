@@ -22,6 +22,19 @@ class UpgradeWindow {
     std::string multiplier_string;
 
     public:
+
+      float getMultiplier() {
+          return this->multiplier;
+      }
+
+      bool getDiscount() {
+          return this->discount;
+      }
+
+      bool getGold() {
+          return this->gold;
+      }
+
       UpgradeWindow() {
         width = 450;
         height = 300;
@@ -599,6 +612,16 @@ public:
             togglePause();
         }
     }
+
+    int getEarnings() {
+        int total_earn_rate = 0;
+        for (Building b : buildings) {
+            total_earn_rate += (b.getEarnRate() * b.getBuildingCount());
+        }
+        total_earn_rate *= uw.getMultiplier();
+
+        return total_earn_rate;
+    }
     
     void run(std::string name) {
         sf::Font font;
@@ -628,12 +651,21 @@ public:
                         
                 }
             }
-            // Change background to money picture
-            gameWindow.clear(sf::Color::Blue);
-            sf::Texture money_background;
-            money_background.loadFromFile("images/background_screen.png");
-            sf::Sprite bg(money_background);
-            gameWindow.draw(bg);
+            // Change background to money picture or gold picture depending on upgrades
+            if (!uw.getGold()) {
+                gameWindow.clear(sf::Color::Blue);
+                sf::Texture money_background;
+                money_background.loadFromFile("images/background_screen.png");
+                sf::Sprite bg(money_background);
+                gameWindow.draw(bg);
+            } else {
+                gameWindow.clear(sf::Color::Blue);
+                sf::Texture gold_background;
+                gold_background.loadFromFile("images/goldbackground.png");
+                sf::Sprite gold(gold_background);
+                gold.setScale(1.5f, 1.5f);
+                gameWindow.draw(gold);
+            }
 
             //draw title
             gameWindow.draw(title);
