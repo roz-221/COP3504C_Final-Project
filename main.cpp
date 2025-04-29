@@ -472,6 +472,8 @@ class GameWindow {
 
     sf::Font font;
 
+    sf::Texture digits;
+
     sf::Sprite avatar; // Winning & Normal
     sf::Texture avatarTexture;
 
@@ -561,6 +563,12 @@ public:
 
     void loadTextures()
     {
+        if (!digits.loadFromFile("images/digits.png"))
+        {
+            std::cerr << "Failed to load digits!" << std::endl;
+            return false;
+        }
+
         totalBalance = sf::Text("Total Balance: $" + std::to_string(balance), font, 100);
         totalBalance.setPosition(700, 200);
 
