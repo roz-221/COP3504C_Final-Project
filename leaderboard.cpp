@@ -2,17 +2,10 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <string>
-#include <chrono>
 #include <vector>
-
-struct Player{
-    std::string name;
-    std::chrono::duration<int> total_time;
-    Player(std::string _name, std::chrono::duration<int> _total_time){
-        name = _name;
-        total_time = _total_time;
-    }
-};
+#include <ios>
+#include <fstream>
+#include "main.cpp"
 
 struct Leaderboard{
     int width;
@@ -27,7 +20,27 @@ struct Leaderboard{
         {
             std::cout << "Failed to open font file!" << std::endl;
         }
-        players = {Player("Monish", std::chrono::seconds(5)), Player("Joe", std::chrono::seconds(6)), Player("Bill", std::chrono::seconds(7))};
+        std::ifstream file("leaderboard.txt");
+        std::vector<Player> players;
+        if (file.is_open()){
+            std::string line;
+            while(std::getline(file, line)){
+                unsigned int time = std::stoi(line);
+                std::getline(file, line);
+                std::string name = line;
+                players.push_back(Player(time, name));
+            }
+        }
+        int n = players.size();
+        for(int i = 0; i < n - 1; i++){
+            for (int j = 0; j < n - i - 1; j++){
+                if (players.at(j).getTime() > players.at(j+1).getTime()){
+                    Player temp = players[j];
+                    players[j] = players[j+1];
+                    players[j+1] = temp;
+                }
+            }
+        }
     }
 
     void launchLeaderboard(){
@@ -54,8 +67,8 @@ struct Leaderboard{
                 leaderBoardWindow.draw(background);
                 //draw player list
                 for(int i = 0; i < players.size(); i++){
-                    std::cout << players.at(i).name;
-                    sf::Text playerText((players.at(i).name + " : " + std::to_string(players.at(i).total_time.count())) + " minutes", font);
+                    std::cout << players.at(i).getName();
+                    sf::Text playerText((players.at(i).getName() + " : " + std::to_string(players.at(i).getTime())) + " seconds", font);
                     playerText.setColor(sf::Color::Black);
                     sf::Vector2f center = playerText.getLocalBounds().getSize() / 2.f;
                     playerText.setOrigin(center.x, center.y);
@@ -66,5 +79,10 @@ struct Leaderboard{
                 leaderBoardWindow.display();
             }
         }
+    }
+
+    void writeStats(std::string name, unsigned int time){
+        std::ofstream log("leaderboard.txt", std::ios_base::app | std::ios_base::out);
+        log << time << "\n" << name;
     }
 };

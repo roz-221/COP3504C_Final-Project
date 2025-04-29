@@ -335,7 +335,7 @@ private:
     unsigned int width;
     unsigned int height;
     sf::Font font;
-    Player p
+    Player p;
 
 public:
     WelcomeWindow()
