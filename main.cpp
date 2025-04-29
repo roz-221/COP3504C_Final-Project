@@ -71,6 +71,11 @@ public:
         this->name = name;
     }
 
+    void setName(std::string name)
+    {
+        this->name = name;
+    }
+
     void setAllPrice()
     {
         if (name == "concessions")
@@ -285,7 +290,66 @@ public:
     
     void loadTextures()
     {
+        if (!pauseTexture.loadFromFile("images/pause.png"))
+        {
+            std::cerr << "Failed to load pause!" << std::endl;
+            return false;
+        }
 
+        if (!playTexture.loadFromFile("images/play.png"))
+        {
+            std::cerr << "Failed to load play!" << std::endl;
+            return false;
+        }
+
+        if (!resetTexture.loadFromFile("images/reset.png"))
+        {
+            std::cerr << "Failed to load play!" << std::endl;
+            return false;
+        }
+
+        reset.setTexture(resetTexture);
+        reset.setTextuerRect(sf::IntRect(0, 0, 106, 106));
+        reset.setScale(100 / 106.0, 100 / 106.0);
+        //reset.setPosition()
+
+        if (!leaderBoardTexture.loadFromFile("images/leaderboard.png"))
+        {
+            std::cerr << "Failed to load leaderboard!" << std::endl;
+            return false;
+        }
+
+        leaderBoard.setTexture(leaderBoardTexture);
+        leaderBoard.setTextureRect(sf::IntRect(0, 0, 64, 64));
+        leaderboard.setScale(100 / 64.0, 100 / 64.0);
+        //leaderboard.setPosition()
+
+        buildings[0].setName("concessions");
+        buildings[1].setName("bull");
+        buildings[2].setName("coaster");
+        buildings[3].setName("ferriswheel");
+        buildings[4].setName("teacups");
+        buildings[5].setName("bumper cars");
+        buildings[6].setName("gokarts");
+        buildings[7].setName("droptower");
+
+        for (size_t i = 0; i < buildings.size(); i++)
+        {
+            buildings[i].setAllPrice();
+            buildings[i].setBuildingTexture();
+        }
+
+        //buildings[0].setPosition()
+        //for (size_t i = 1; i < 4; i++)
+        //{
+            //buildings[i].setPosition();
+        //}
+ 
+        //buildings[4].setPosition();
+        //for (size_t i = 5; i < 8; i++)
+        //{
+            //buildings[i].setPosition();
+        //}
     }
 
     void handleClick(int x, int y, sf::Mouse::Button){
