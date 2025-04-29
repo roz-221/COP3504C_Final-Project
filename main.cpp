@@ -349,8 +349,15 @@ public:
             }
             // Change to money picture
             gameWindow.clear(sf::Color::Blue);
+            sf::Texture money_background;
+            money_background.loadFromFile("images/background_screen.png");
+            sf::Sprite bg(money_background);
+            gameWindow.draw(bg);
 
+            //draw title
             gameWindow.draw(title);
+
+            //draw buildings 
             for (size_t i = 0; i < buildings.size(); ++i) {
                 gameWindow.draw(buildings.at(i).getBuildingSprite());
             }
