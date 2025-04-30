@@ -413,7 +413,7 @@ public:
     }
 
     int getEarnRate() {
-        return earn_rate*100;
+        return earn_rate*2;
     }
     int getBuildingCount() {
         return building_count;
