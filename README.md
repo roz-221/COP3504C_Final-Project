@@ -5,3 +5,5 @@ Starting from the humble concession stand, build up your Theme Park empire by ea
 This project is our submission for the COP3504C Final Project assignment.
 
 Brainstorming Document: https://docs.google.com/document/d/11pjl9NWQYmeuSXtrFFXk_ZIS5dOlcRL07YidBPDd8N4/edit?usp=sharing
+
+Final Report: https://docs.google.com/document/d/1GbbKBxwBs0Sr2rkoQbWI_t39Or53iByB9sufNSfJgAI/edit?usp=sharing
