@@ -271,7 +271,7 @@ class Building {
     bool discount;
 
 public:
-    Building() : building_count(0), original_building_price(0), earn_rate(0), discount(false)
+    Building() : building_count(0), original_building_price(0), current_building_price(0), earn_rate(0), discount(false)
     {
         if (!font.loadFromFile("font.ttf"))
         {
