@@ -413,7 +413,7 @@ public:
     }
 
     int getEarnRate() {
-        return earn_rate;
+        return earn_rate*100;
     }
     int getBuildingCount() {
         return building_count;
@@ -832,6 +832,7 @@ public:
         balance = 50;
         sf::Time zeroTime;
         pausedTime = zeroTime;
+        isPaused = false;
 
         for (size_t i = 0; i < buildings.size(); i++)
         {
@@ -865,7 +866,9 @@ public:
         //Leaderboard Check
         else if (leaderboard.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
+            togglePause();
             toggleLeaderboard();
+            togglePause();
         }
 
         else if (pausePlayButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
@@ -985,7 +988,7 @@ public:
             sf::Vector2f balanceCenter = balanceText.getLocalBounds().getSize() / 2.f;
             balanceText.setOrigin(balanceCenter);
             balanceText.setPosition(sf::Vector2f(title.getPosition().x + 400, 10));
-            balanceText.setColor(sf::Color::Black);
+            balanceText.setFillColor(sf::Color::Black);
             gameWindow.draw(balanceText);
             //draw buttons
             upgradeTexture.loadFromFile("images/upgradebutton.png");
@@ -1025,7 +1028,9 @@ public:
                 lb.players.push_back(p1);
                 toggleReset();
                 gameWon = false;
+                togglePause();
                 lb.launchLeaderboard();
+                togglePause();
             }
             gameWindow.display();
         }
