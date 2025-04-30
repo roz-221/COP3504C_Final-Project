@@ -1,5 +1,4 @@
-# COP3504C_Final-Project
-# Theme Park Tycoon
+# COP3504C_Final-Project : Theme Park Tycoon
 
 Starting from the humble concession stand, build up your Theme Park empire by earning money, buying new attractions, and purchasing upgrades. See how long it takes for you to beat the game, and where you measure up to other people on the leaderboard.
 
