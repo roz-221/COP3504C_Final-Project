@@ -571,7 +571,23 @@ struct Leaderboard{
                 unsigned int time = std::stoi(line);
                 std::getline(file, line);
                 std::string name = line;
-                players.push_back(Player(name, time));
+                bool hasName = false;
+                bool timeFaster = false;
+                int index = 0;
+                for (size_t i = 0; i < players.size(); i++) {
+                    if (players[i].getName() == name) {
+                        hasName = true;
+                        timeFaster = (players[i].getTime() > time);
+                        index = i;
+                        break;
+                    }
+                }
+                if (!hasName) {
+                    players.push_back(Player(name, time));
+                } else if (timeFaster) {
+                    players[index] = Player(name, time);
+                }
+
             }
         }
         int n = players.size();
@@ -602,7 +618,7 @@ struct Leaderboard{
                 background.setFillColor(sf::Color::Blue);
 
                 //create title text
-                sf::Text mainText("User Leaderboard", font);
+                sf::Text mainText("User Leaderboard:", font);
                 mainText.setFillColor(sf::Color::White);
                 mainText.setPosition(sf::Vector2f(width/4, 0));
 
@@ -814,6 +830,8 @@ public:
         gameClock.restart();
 
         balance = 50;
+        sf::Time zeroTime;
+        pausedTime = zeroTime;
 
         for (size_t i = 0; i < buildings.size(); i++)
         {
@@ -826,7 +844,6 @@ public:
 
     void toggleLeaderboard()
     {
-        lb.players.push_back(p1);
         lb.launchLeaderboard();
     }
 
@@ -840,7 +857,9 @@ public:
         //reset check
         else if (reset.getGlobalBounds().contains(mousePos.x, mousePos.y))
         {
-            toggleReset();
+            if (!isPaused) {
+                toggleReset();
+            }
         }
 
         //Leaderboard Check
@@ -890,7 +909,8 @@ public:
             return;
         }
         sf::RenderWindow gameWindow(sf::VideoMode({ width, height }), "Game Window");
-        sf::Text title(name + "'s Tycoon", font, 30);
+        sf::Text title(name + "'s Tycoon", font, 40);
+        title.setStyle(sf::Text::Bold);
         title.setFillColor(sf::Color::Black);
         sf::Vector2f center = title.getLocalBounds().getSize() / 2.f;
         title.setOrigin(center.x, center.y);
@@ -991,7 +1011,9 @@ public:
                 gameWindow.draw(buildings.at(i).getCountText());
             }
             //Update Earnings
-            updateEarnings();
+            if (!isPaused) {
+                updateEarnings();
+            }
 
             //Check if game won
             if (!gameWon) {
